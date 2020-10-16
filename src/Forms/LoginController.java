@@ -32,7 +32,7 @@ public class LoginController {
                     while (rs.next()){
                         if (rs.getString("Valid").equals("True")){
                             //TODO: show main winodw here
-                            
+
                         }
                         else{
                             Alert alert = new Alert(Alert.AlertType.ERROR);
