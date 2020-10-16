@@ -32,9 +32,7 @@ public class LoginController {
                     while (rs.next()){
                         if (rs.getString("Valid").equals("True")){
                             //TODO: show main winodw here
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setContentText("Wahoo!");
-                            alert.showAndWait();
+                            
                         }
                         else{
                             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -43,6 +41,7 @@ public class LoginController {
                             alert.showAndWait();
                         }
                     }
+                    connection.close();
                 }
             }
         }
