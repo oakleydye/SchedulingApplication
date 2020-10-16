@@ -1,5 +1,4 @@
-package Forms;
-
+import Forms.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +9,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("frmLogin.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Forms/frmLogin.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Scheduling Manager");
         LoginController controller = loader.getController();
