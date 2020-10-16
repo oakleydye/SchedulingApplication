@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<GridPane xmlns="http://javafx.com/javafx" fx:controller="Forms.CalendarController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <GridPane hgap="10" vgap="10">
+        <TableView fx:id="grdAppt" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <columns>
+                <TableColumn text="Appointment ID">
+                    <cellValueFactory><PropertyValueFactory property="AppointmentId"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Title">
+                    <cellValueFactory><PropertyValueFactory property="title"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Description">
+                    <cellValueFactory><PropertyValueFactory property="description"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Location">
+                    <cellValueFactory><PropertyValueFactory property="location"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Contact">
+                    <cellValueFactory><PropertyValueFactory property="contact.name"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Type">
+                    <cellValueFactory><PropertyValueFactory property="type"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Start Date and Time">
+                    <cellValueFactory><PropertyValueFactory property="startTime"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="End Date and Time">
+                    <cellValueFactory><PropertyValueFactory property="endTime"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Customer ID">
+                    <cellValueFactory><PropertyValueFactory property="customer.CustomerId"/> </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </GridPane>
+</GridPane>
