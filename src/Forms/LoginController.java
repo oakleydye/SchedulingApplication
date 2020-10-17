@@ -2,14 +2,19 @@ package Forms;
 
 import Libraries.ConnectionManager;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginController {
     @FXML TextField txtUsername;
@@ -31,8 +36,16 @@ public class LoginController {
                     ResultSet rs = stmt.executeQuery();
                     while (rs.next()){
                         if (rs.getString("Valid").equals("True")){
-                            //TODO: show main winodw here
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("frmCalendar.fxml"));
+                            Parent root = loader.load();
+                            CalendarController controller = new CalendarController();
+                            controller.init(GetUserId(txtUsername.getText()));
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(root, 800, 600));
+                            stage.show();
 
+                            Stage stage2 = (Stage) txtUsername.getScene().getWindow();
+                            stage2.close();
                         }
                         else{
                             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -47,6 +60,25 @@ public class LoginController {
         }
         catch (Exception ex){
             ex.printStackTrace();
+        }
+    }
+
+    private int GetUserId(String username){
+        try{
+            Connection connection = ConnectionManager.GetConnection();
+            if (connection != null){
+                String query = "CALL GetUserId(?)";
+                CallableStatement statement = connection.prepareCall(query);
+                statement.setString(1, username);
+                ResultSet rs = statement.executeQuery();
+                while (rs.next()){
+                    return rs.getInt("User_ID");
+                }
+            }
+            return 0;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
         }
     }
 }

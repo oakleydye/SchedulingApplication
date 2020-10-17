@@ -16,12 +16,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class CalendarController {
     @FXML TableView<Appointment> grdAppointment = new TableView<>();
 
     public void init(int userId){
-        FilteredList<Appointment> appointments = new FilteredList<Appointment>(GetAllAppointments(userId));
+        FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId)));
         grdAppointment.setItems(appointments);
     }
 
@@ -65,7 +66,7 @@ public class CalendarController {
             if (connection != null){
                 String query = "CALL GetCustomerById(?)";
                 CallableStatement statement = connection.prepareCall(query);
-                statement.setInt("CustomerId", customerId);
+                statement.setInt(1, customerId);
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()){
                     customer.setCustomerId(customerId);
