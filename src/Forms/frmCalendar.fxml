@@ -10,7 +10,7 @@
 <GridPane xmlns="http://javafx.com/javafx" fx:controller="Forms.CalendarController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
     <GridPane hgap="10" vgap="10">
-        <TableView fx:id="grdAppt" GridPane.rowIndex="1" GridPane.columnIndex="1">
+        <TableView fx:id="grdAppointment" GridPane.rowIndex="1" GridPane.columnIndex="1">
             <columns>
                 <TableColumn text="Appointment ID">
                     <cellValueFactory><PropertyValueFactory property="AppointmentId"/></cellValueFactory>
