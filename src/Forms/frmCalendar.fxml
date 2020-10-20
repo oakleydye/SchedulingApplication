@@ -7,8 +7,12 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<GridPane xmlns="http://javafx.com/javafx" fx:controller="Forms.CalendarController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="Forms.CalendarController"
+          hgap="10" vgap="10"
+          prefHeight="800" prefWidth="1280">
+
     <GridPane hgap="10" vgap="10">
         <TableView fx:id="grdAppointment" GridPane.rowIndex="1" GridPane.columnIndex="1">
             <columns>
@@ -41,5 +45,28 @@
                 </TableColumn>
             </columns>
         </TableView>
+
+        <VBox GridPane.columnIndex="3" GridPane.rowIndex="1" spacing="16">
+            <Label text="Appointment Id"/>
+            <Label text="Title"/>
+            <Label text="Description"/>
+            <Label text="Location"/>
+            <Label text="Contact"/>
+            <Label text="Type"/>
+            <Label text="Start"/>
+            <Label text="End"/>
+            <Label text="Customer ID"/>
+        </VBox>
+        <VBox GridPane.columnIndex="5" GridPane.rowIndex="1" spacing="5">
+            <TextField fx:id="txtAppointmentId" disable="true"/>
+            <TextField fx:id="txtTitle"/>
+            <TextField fx:id="txtDescription"/>
+            <TextField fx:id="txtLocation"/>
+            <ComboBox fx:id="cboContact"/>
+            <TextField fx:id="txtType"/>
+            <TextField fx:id="txtStart"/>
+            <TextField fx:id="txtEnd"/>
+            <TextField fx:id="txtCustomerId"/>
+        </VBox>
     </GridPane>
 </GridPane>
