@@ -8,7 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -20,6 +23,15 @@ import java.util.Objects;
 
 public class CalendarController {
     @FXML TableView<Appointment> grdAppointment = new TableView<>();
+    @FXML TextField txtAppointmentId;
+    @FXML TextField txtTitle;
+    @FXML TextField txtDescription;
+    @FXML TextField txtLocation;
+    @FXML ComboBox<Contact> cboContact;
+    @FXML TextField txtType;
+    @FXML TextField txtStart;
+    @FXML TextField txtEnd;
+    @FXML TextField txtCustomerId;
 
     public void init(int userId){
         FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId)));
