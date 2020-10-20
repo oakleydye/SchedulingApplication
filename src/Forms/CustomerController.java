@@ -80,11 +80,44 @@ public class CustomerController {
     }
 
     public void btnAdd_Click(ActionEvent actionEvent) {
-
+        txtCustomerID.clear();
+        txtName.clear();
+        txtPhone.clear();
+        txtAddress.clear();
+        txtZip.clear();
     }
 
     public void btnSave_Click(ActionEvent actionEvent) {
-
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                if (txtCustomerID.getText().equals("")){ //call insert proc
+                    String query = "CALL CustomerInsert(?,?,?,?,?,?)";
+                    CallableStatement stmt = conn.prepareCall(query);
+                    stmt.setString(1, txtName.getText());
+                    stmt.setString(2, txtAddress.getText());
+                    stmt.setString(3, txtZip.getText());
+                    stmt.setString(4, txtPhone.getText());
+                    stmt.setString(5, LoginController.currentUser);
+                    stmt.setString(6, cboFirstLevelDivision.getSelectionModel().getSelectedItem());
+                    stmt.executeQuery();
+                } else { //Call update proc here
+                    String query = "CALL CustomerUpdate(?,?,?,?,?,?,?)";
+                    CallableStatement stmt = conn.prepareCall(query);
+                    stmt.setString(1, txtCustomerID.getText());
+                    stmt.setString(2, txtName.getText());
+                    stmt.setString(3, txtAddress.getText());
+                    stmt.setString(4, txtZip.getText());
+                    stmt.setString(5, txtPhone.getText());
+                    stmt.setString(6, LoginController.currentUser);
+                    stmt.setString(7, cboFirstLevelDivision.getSelectionModel().getSelectedItem());
+                    stmt.executeQuery();
+                }
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public void btnDelete_Click(ActionEvent actionEvent) {

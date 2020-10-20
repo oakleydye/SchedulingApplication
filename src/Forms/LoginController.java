@@ -20,6 +20,8 @@ public class LoginController {
     @FXML TextField txtUsername;
     @FXML PasswordField txtPassword;
 
+    public static String currentUser;
+
     public void init(){
 
     }
@@ -36,6 +38,7 @@ public class LoginController {
                     ResultSet rs = stmt.executeQuery();
                     while (rs.next()){
                         if (rs.getString("Valid").equals("True")){
+                            currentUser = txtUsername.getText();
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("frmCalendar.fxml"));
                             Parent root = loader.load();
                             CalendarController controller = new CalendarController();
