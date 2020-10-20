@@ -11,7 +11,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-import java.io.Console;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -145,6 +144,30 @@ public class CustomerController {
             txtZip.setText(Integer.toString(selectedCustomer.getZip()));
             cboCountry.getSelectionModel().select(1); //// TODO: 10/19/20 fix this to make the division name display
             cboFirstLevelDivision.getSelectionModel().select(1); //// TODO: 10/19/20 fix this one as well
+        }
+    }
+
+    public void cboCountry_SelectionChanged(ActionEvent actionEvent) {
+        String currentCountry = cboCountry.getSelectionModel().getSelectedItem();
+        if (!currentCountry.equals("")){
+            try{
+                Connection conn = ConnectionManager.GetConnection();
+                if (conn != null){
+                    String query = "CALL DivisionByCountryGet(?)";
+                    CallableStatement stmt = conn.prepareCall(query);
+                    stmt.setString(1, cboCountry.getSelectionModel().getSelectedItem());
+                    ResultSet rs = stmt.executeQuery();
+                    divisions = null;
+                    divisions = FXCollections.observableArrayList();
+                    while (rs.next()){
+                        divisions.add(rs.getString("Division"));
+                    }
+                    cboFirstLevelDivision.setItems(divisions);
+                }
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
         }
     }
 }

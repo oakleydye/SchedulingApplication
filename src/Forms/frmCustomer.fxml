@@ -52,7 +52,7 @@
             <TextField fx:id="txtAddress"/>
             <TextField fx:id="txtZip"/>
             <ComboBox fx:id="cboFirstLevelDivision"/>
-            <ComboBox fx:id="cboCountry"/>
+            <ComboBox fx:id="cboCountry" onAction="#cboCountry_SelectionChanged"/>
         </VBox>
         <HBox GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" spacing="10">
             <Button fx:id="btnAdd" text="Add New Customer" onAction="#btnAdd_Click"/>
