@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -129,10 +130,21 @@ public class CustomerController {
                 stmt.setString(1, txtCustomerID.getText());
                 stmt.executeQuery();
                 conn.close();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("");
+                alert.setContentText("Customer successfully deleted");
+                alert.setTitle("Success!");
+                alert.showAndWait();
             }
         }
         catch (Exception ex){
             ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("");
+            alert.setTitle("Error...");
+            alert.setContentText("Error deleting customer:\r\n" + ex.getMessage());
+            alert.showAndWait();
         }
     }
 
