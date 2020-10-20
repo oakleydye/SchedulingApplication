@@ -77,6 +77,7 @@ public class LoginController {
                 while (rs.next()){
                     return rs.getInt("User_ID");
                 }
+                connection.close();
             }
             return 0;
         } catch (SQLException ex) {

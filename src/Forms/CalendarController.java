@@ -51,6 +51,7 @@ public class CalendarController {
                     appt.setCustomer(GetCustomer(rs.getInt("Customer_ID")));
                     appointments.add(appt);
                 }
+                connection.close();
             }
             return appointments;
         } catch (SQLException ex) {
@@ -80,6 +81,7 @@ public class CalendarController {
                     customer.setLastUpdateBy(rs.getString("Last_Updated_By"));
                     customer.setDivisionId(rs.getInt("Division_ID"));
                 }
+                connection.close();
             }
             return customer;
         } catch (SQLException ex) {

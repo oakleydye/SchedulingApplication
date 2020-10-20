@@ -112,6 +112,7 @@ public class CustomerController {
                     stmt.setString(7, cboFirstLevelDivision.getSelectionModel().getSelectedItem());
                     stmt.executeQuery();
                 }
+                conn.close();
             }
         }
         catch (Exception ex){
@@ -127,6 +128,7 @@ public class CustomerController {
                 CallableStatement stmt = conn.prepareCall(query);
                 stmt.setString(1, txtCustomerID.getText());
                 stmt.executeQuery();
+                conn.close();
             }
         }
         catch (Exception ex){
@@ -163,6 +165,7 @@ public class CustomerController {
                         divisions.add(rs.getString("Division"));
                     }
                     cboFirstLevelDivision.setItems(divisions);
+                    conn.close();
                 }
             }
             catch (Exception ex){
