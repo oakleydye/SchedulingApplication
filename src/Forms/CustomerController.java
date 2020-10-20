@@ -30,31 +30,67 @@ public class CustomerController {
     @FXML ComboBox<String> cboFirstLevelDivision;
     @FXML ComboBox<String> cboCountry;
 
-    public void init(){
-        try{
-            ResultSet rs;
-            String query;
-            CallableStatement statement;
+    public void init() {
+        try {
+            GetAllCountries();
+            GetAllDivisions();
+            GetAllCustomers();
+
+            grdCustomers.setItems(customers);
+            cboCountry.setItems(countries);
+            cboFirstLevelDivision.setItems(divisions);
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private void GetAllCountries() {
+        try {
             Connection connection = ConnectionManager.GetConnection();
-            if (connection != null){
-                query = "CALL CountriesGet()";
-                statement = connection.prepareCall(query);
-                rs = statement.executeQuery();
-                while (rs.next()){
+            if (connection != null) {
+                String query = "CALL CountriesGet()";
+                CallableStatement statement = connection.prepareCall(query);
+                ResultSet rs = statement.executeQuery();
+                while (rs.next()) {
                     countries.add(rs.getString("Country"));
                 }
+                connection.close();
+            } else {
+                throw new Exception("Error establishing database connection");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
-                query = "CALL DivisionGet()";
-                statement = connection.prepareCall(query);
-                rs = statement.executeQuery();
-                while (rs.next()){
+    private void GetAllDivisions() {
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL DivisionGet()";
+                CallableStatement statement = conn.prepareCall(query);
+                ResultSet rs = statement.executeQuery();
+                while (rs.next()) {
                     divisions.add(rs.getString("Division"));
                 }
+                conn.close();
+            } else {
+                throw new Exception("Error establishing database connection");
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
-                query = "CALL CustomerInfoGet()";
-                statement = connection.prepareCall(query);
-                rs = statement.executeQuery();
-                while (rs.next()){
+    private void GetAllCustomers(){
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL CustomerInfoGet()";
+                CallableStatement stmt = conn.prepareCall(query);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
                     Customer customer = new Customer();
                     customer.setCustomerId(rs.getInt("Customer_ID"));
                     customer.setName(rs.getString("Customer_Name"));
@@ -64,17 +100,11 @@ public class CustomerController {
                     customer.setDivisionId(rs.getInt("Division_ID"));
                     customers.add(customer);
                 }
-
-                connection.close();
+                conn.close();
             } else {
                 throw new Exception("Error establishing database connection");
             }
-
-            grdCustomers.setItems(customers);
-            cboCountry.setItems(countries);
-            cboFirstLevelDivision.setItems(divisions);
-        }
-        catch (Exception ex){
+        } catch (Exception ex){
             ex.printStackTrace();
         }
     }
