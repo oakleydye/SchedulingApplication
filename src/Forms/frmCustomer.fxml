@@ -14,7 +14,7 @@
           hgap="10" vgap="10">
 
     <GridPane hgap="10" vgap="10">
-        <TableView fx:id="grdCustomers">
+        <TableView fx:id="grdCustomers" onMouseClicked="#grdCustomers_Click">
             <columns>
                 <TableColumn text="Customer ID">
                     <cellValueFactory><PropertyValueFactory property="CustomerId"/> </cellValueFactory>

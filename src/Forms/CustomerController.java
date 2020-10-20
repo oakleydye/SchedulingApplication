@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 import java.io.Console;
 import java.sql.CallableStatement;
@@ -83,8 +84,34 @@ public class CustomerController {
     }
 
     public void btnSave_Click(ActionEvent actionEvent) {
+
     }
 
     public void btnDelete_Click(ActionEvent actionEvent) {
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL CustomerDelete(?)";
+                CallableStatement stmt = conn.prepareCall(query);
+                stmt.setString(1, txtCustomerID.getText());
+                stmt.executeQuery();
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void grdCustomers_Click(MouseEvent mouseEvent) {
+        Customer selectedCustomer = grdCustomers.getSelectionModel().getSelectedItem();
+        if (selectedCustomer != null){
+            txtCustomerID.setText(Integer.toString(selectedCustomer.getCustomerId()));
+            txtName.setText(selectedCustomer.getName());
+            txtPhone.setText(selectedCustomer.getPhone());
+            txtAddress.setText(selectedCustomer.getAddress());
+            txtZip.setText(Integer.toString(selectedCustomer.getZip()));
+            cboCountry.getSelectionModel().select(1); //// TODO: 10/19/20 fix this to make the division name display
+            cboFirstLevelDivision.getSelectionModel().select(1); //// TODO: 10/19/20 fix this one as well
+        }
     }
 }
