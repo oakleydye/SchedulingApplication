@@ -7,7 +7,9 @@ import Libraries.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -32,6 +34,9 @@ public class CalendarController {
     @FXML TextField txtStart;
     @FXML TextField txtEnd;
     @FXML TextField txtCustomerId;
+    @FXML Button btnAdd;
+    @FXML Button btnSave;
+    @FXML Button btnDelete;
 
     public void init(int userId){
         FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId)));
@@ -100,5 +105,17 @@ public class CalendarController {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public void btnAdd_Click(ActionEvent actionEvent) {
+
+    }
+
+    public void btnSave_Click(ActionEvent actionEvent) {
+
+    }
+
+    public void btnDelete_Click(ActionEvent actionEvent) {
+        
     }
 }
