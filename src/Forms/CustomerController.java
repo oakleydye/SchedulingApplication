@@ -27,8 +27,8 @@ public class CustomerController {
     @FXML TextField txtPhone;
     @FXML TextField txtAddress;
     @FXML TextField txtZip;
-    @FXML ComboBox<String> cboFirstLevelDivision;
-    @FXML ComboBox<String> cboCountry;
+    @FXML ComboBox<String> cboFirstLevelDivision = new ComboBox<>();
+    @FXML ComboBox<String> cboCountry = new ComboBox<>();
 
     public void init() {
         try {
