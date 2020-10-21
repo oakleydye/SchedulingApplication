@@ -44,7 +44,7 @@ public class LoginController {
                             CalendarController controller = new CalendarController();
                             controller.init(GetUserId(txtUsername.getText()));
                             Stage stage = new Stage();
-                            stage.setScene(new Scene(root, 800, 600));
+                            stage.setScene(new Scene(root, 1280, 800));
                             stage.show();
 
                             Stage stage2 = (Stage) txtUsername.getScene().getWindow();

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="Forms.CustomerController"
+          prefHeight="800.0" prefWidth="1280.0"
+          hgap="10" vgap="10">
+
+    <GridPane hgap="10" vgap="10">
+        <TableView fx:id="grdCustomers" onMouseClicked="#grdCustomers_Click" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
+            <columns>
+                <TableColumn text="Customer ID">
+                    <cellValueFactory><PropertyValueFactory property="CustomerId"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Name">
+                    <cellValueFactory><PropertyValueFactory property="name"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Phone #">
+                    <cellValueFactory><PropertyValueFactory property="phone"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Address">
+                    <cellValueFactory><PropertyValueFactory property="address"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Zip">
+                    <cellValueFactory><PropertyValueFactory property="zip"/> </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="First Level Division">
+                    <cellValueFactory><PropertyValueFactory property="DivisionId"/> </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+        <VBox spacing="16" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Label text="Customer ID"/>
+            <Label text="Name"/>
+            <Label text="Phone"/>
+            <Label text="Address"/>
+            <Label text="Zip"/>
+            <Label text="First Level Division"/>
+            <Label text="Country"/>
+        </VBox>
+        <VBox GridPane.columnIndex="5" GridPane.rowIndex="1" spacing="5">
+            <TextField fx:id="txtCustomerID" disable="true"/>
+            <TextField fx:id="txtName"/>
+            <TextField fx:id="txtPhone"/>
+            <TextField fx:id="txtAddress"/>
+            <TextField fx:id="txtZip"/>
+            <ComboBox fx:id="cboFirstLevelDivision"/>
+            <ComboBox fx:id="cboCountry" onAction="#cboCountry_SelectionChanged"/>
+        </VBox>
+        <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2" spacing="10">
+            <Button fx:id="btnAdd" text="Add New Customer" onAction="#btnAdd_Click"/>
+            <Button fx:id="btnSave" text="Save" onAction="#btnSave_Click"/>
+            <Button fx:id="btnDelete" text="Delete" onAction="#btnDelete_Click"/>
+        </HBox>
+    </GridPane>
+</GridPane>

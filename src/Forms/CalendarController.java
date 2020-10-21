@@ -9,10 +9,14 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -36,6 +40,7 @@ public class CalendarController {
     @FXML Button btnAdd;
     @FXML Button btnSave;
     @FXML Button btnDelete;
+    @FXML Button btnCustomers;
 
     public void init(int userId){
         FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId)));
@@ -188,6 +193,21 @@ public class CalendarController {
                 }
             }
         } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void btnCustomers_Click(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("frmCustomer.fxml"));
+            Parent root = loader.load();
+            CustomerController controller = new CustomerController();
+            controller.init();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 1280, 800));
+            stage.show();
+        }
+        catch (Exception ex){
             ex.printStackTrace();
         }
     }
