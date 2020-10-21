@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -108,14 +107,88 @@ public class CalendarController {
     }
 
     public void btnAdd_Click(ActionEvent actionEvent) {
-
+        txtAppointmentId.clear();
+        txtTitle.clear();
+        txtDescription.clear();
+        txtLocation.clear();
+        txtType.clear();
+        txtStart.clear();
+        txtEnd.clear();
+        txtCustomerId.clear();
     }
 
     public void btnSave_Click(ActionEvent actionEvent) {
+        try{
+            if (txtAppointmentId.getText().equals("")){
+                InsertNewAppointment();
+            } else {
+                UpdateExistingAppointment();
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
+    private void InsertNewAppointment(){
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL AppointmentInsert(?,?,?,?,?,?,?,?,?)";
+                CallableStatement stmt = conn.prepareCall(query);
+                stmt.setString(1, txtTitle.getText());
+                stmt.setString(2, txtDescription.getText());
+                stmt.setString(3, txtLocation.getText());
+                stmt.setString(4, txtType.getText());
+                stmt.setString(5, txtStart.getText());
+                stmt.setString(6, txtEnd.getText());
+                stmt.setString(7, LoginController.currentUser);
+                stmt.setString(8, txtCustomerId.getText());
+                stmt.setInt(9, cboContact.getSelectionModel().getSelectedItem().getContactId());
+                stmt.executeQuery();
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private void UpdateExistingAppointment(){
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL AppointmentUpdate(?,?,?,?,?,?,?,?,?,?)";
+                CallableStatement stmt = conn.prepareCall(query);
+                stmt.setString(1, txtAppointmentId.getText());
+                stmt.setString(2, txtTitle.getText());
+                stmt.setString(3, txtDescription.getText());
+                stmt.setString(4, txtLocation.getText());
+                stmt.setString(5, txtType.getText());
+                stmt.setString(6, txtStart.getText());
+                stmt.setString(7, txtEnd.getText());
+                stmt.setString(8, LoginController.currentUser);
+                stmt.setString(9, txtCustomerId.getText());
+                stmt.setInt(10, cboContact.getSelectionModel().getSelectedItem().getContactId());
+                stmt.executeQuery();
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public void btnDelete_Click(ActionEvent actionEvent) {
-        
+        try{
+            if (!txtAppointmentId.getText().equals("")){
+                Connection conn = ConnectionManager.GetConnection();
+                if (conn != null){
+                    String query = "CALL AppointmentDelete(?)";
+                    CallableStatement stmt = conn.prepareCall(query);
+                    stmt.setString(1, txtAppointmentId.getText());
+                    stmt.executeQuery();
+                } else {
+                    throw new Exception("Error establishing database connections");
+                }
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
