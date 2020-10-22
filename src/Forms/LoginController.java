@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
@@ -24,6 +21,7 @@ public class LoginController {
     @FXML PasswordField txtPassword;
     @FXML Label lblUsername;
     @FXML Label lblPwd;
+    @FXML Button btnLogin;
 
     public static String currentUser;
 
@@ -33,6 +31,7 @@ public class LoginController {
         if (!Locale.getDefault().getLanguage().equals("en")){
             lblUsername.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblUsername.getText()));
             lblPwd.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblPwd.getText()));
+            btnLogin.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnLogin.getText()));
         }
     }
 

@@ -1,9 +1,6 @@
 package Forms;
 
-import Libraries.Appointment;
-import Libraries.ConnectionManager;
-import Libraries.Contact;
-import Libraries.Customer;
+import Libraries.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -12,10 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.sql.CallableStatement;
@@ -24,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 
 public class CalendarController {
@@ -42,9 +37,53 @@ public class CalendarController {
     @FXML Button btnDelete;
     @FXML Button btnCustomers;
 
+    @FXML TableColumn colID;
+    @FXML TableColumn colTitle;
+    @FXML TableColumn colDesc;
+    @FXML TableColumn colLocation;
+    @FXML TableColumn colContact;
+    @FXML TableColumn colType;
+    @FXML TableColumn colStart;
+    @FXML TableColumn colEnd;
+    @FXML TableColumn colCustId;
+    @FXML Label lblId;
+    @FXML Label lblTitle;
+    @FXML Label lblDesc;
+    @FXML Label lblLocation;
+    @FXML Label lblContact;
+    @FXML Label lblType;
+    @FXML Label lblStart;
+    @FXML Label lblEnd;
+    @FXML Label lblCustId;
+
     public void init(int userId){
         FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId)));
         grdAppointment.setItems(appointments);
+
+        if (!Locale.getDefault().getLanguage().equals("en")){
+            colID.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colID.getText()));
+            colTitle.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colTitle.getText()));
+            colDesc.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colDesc.getText()));
+            colLocation.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colLocation.getText()));
+            colContact.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colContact.getText()));
+            colType.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colType.getText()));
+            colStart.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colStart.getText()));
+            colEnd.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colEnd.getText()));
+            colCustId.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colCustId.getText()));
+            lblId.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblId.getText()));
+            lblTitle.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblTitle.getText()));
+            lblDesc.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblDesc.getText()));
+            lblLocation.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblLocation.getText()));
+            lblContact.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblContact.getText()));
+            lblType.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblType.getText()));
+            lblStart.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblStart.getText()));
+            lblEnd.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblEnd.getText()));
+            lblCustId.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblCustId.getText()));
+            btnAdd.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnAdd.getText()));
+            btnSave.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnSave.getText()));
+            btnDelete.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnDelete.getText()));
+            btnCustomers.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnCustomers.getText()));
+        }
     }
 
     private ObservableList<Appointment> GetAllAppointments(int userId){

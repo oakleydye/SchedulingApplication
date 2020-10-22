@@ -16,46 +16,46 @@
     <GridPane hgap="10" vgap="10">
         <TableView fx:id="grdAppointment" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.rowSpan="2">
             <columns>
-                <TableColumn text="Appointment ID">
+                <TableColumn fx:id="colID" text="Appointment ID">
                     <cellValueFactory><PropertyValueFactory property="AppointmentId"/></cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Title">
+                <TableColumn fx:id="colTitle" text="Title">
                     <cellValueFactory><PropertyValueFactory property="title"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Description">
+                <TableColumn fx:id="colDesc" text="Description">
                     <cellValueFactory><PropertyValueFactory property="description"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Location">
+                <TableColumn fx:id="colLocation" text="Location">
                     <cellValueFactory><PropertyValueFactory property="location"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Contact">
+                <TableColumn fx:id="colContact" text="Contact">
                     <cellValueFactory><PropertyValueFactory property="contact.name"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Type">
+                <TableColumn fx:id="colType" text="Type">
                     <cellValueFactory><PropertyValueFactory property="type"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Start Date and Time">
+                <TableColumn fx:id="colStart" text="Start Date and Time">
                     <cellValueFactory><PropertyValueFactory property="startTime"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="End Date and Time">
+                <TableColumn fx:id="colEnd" text="End Date and Time">
                     <cellValueFactory><PropertyValueFactory property="endTime"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Customer ID">
+                <TableColumn fx:id="colCustId" text="Customer ID">
                     <cellValueFactory><PropertyValueFactory property="customer.CustomerId"/> </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>
 
         <VBox GridPane.columnIndex="3" GridPane.rowIndex="1" spacing="16">
-            <Label text="Appointment Id"/>
-            <Label text="Title"/>
-            <Label text="Description"/>
-            <Label text="Location"/>
-            <Label text="Contact"/>
-            <Label text="Type"/>
-            <Label text="Start"/>
-            <Label text="End"/>
-            <Label text="Customer ID"/>
+            <Label fx:id="lblId" text="Appointment Id"/>
+            <Label fx:id="lblTitle" text="Title"/>
+            <Label fx:id="lblDesc" text="Description"/>
+            <Label fx:id="lblLocation" text="Location"/>
+            <Label fx:id="lblContact" text="Contact"/>
+            <Label fx:id="lblType" text="Type"/>
+            <Label fx:id="lblStart" text="Start"/>
+            <Label fx:id="lblEnd" text="End"/>
+            <Label fx:id="lblCustId" text="Customer ID"/>
         </VBox>
         <VBox GridPane.columnIndex="5" GridPane.rowIndex="1" spacing="5">
             <TextField fx:id="txtAppointmentId" disable="true"/>
