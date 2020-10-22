@@ -1,11 +1,13 @@
 package Forms;
 
 import Libraries.ConnectionManager;
+import Libraries.TranslationManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
@@ -15,15 +17,23 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 public class LoginController {
     @FXML TextField txtUsername;
     @FXML PasswordField txtPassword;
+    @FXML Label lblUsername;
+    @FXML Label lblPwd;
 
     public static String currentUser;
 
     public void init(){
-
+        //// TODO: 10/21/20 Add in ability to show user location here, as well as language control
+        Locale.setDefault(new Locale("fr"));
+        if (!Locale.getDefault().getLanguage().equals("en")){
+            lblUsername.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblUsername.getText()));
+            lblPwd.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblPwd.getText()));
+        }
     }
 
     public void btnLogin_Click(ActionEvent actionEvent) {

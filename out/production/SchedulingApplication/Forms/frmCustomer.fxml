@@ -51,8 +51,8 @@
             <TextField fx:id="txtPhone"/>
             <TextField fx:id="txtAddress"/>
             <TextField fx:id="txtZip"/>
-            <ComboBox fx:id="cboFirstLevelDivision"/>
-            <ComboBox fx:id="cboCountry" onAction="#cboCountry_SelectionChanged"/>
+            <ComboBox fx:id="cboFirstLevelDivision" minWidth="200"/>
+            <ComboBox fx:id="cboCountry" onAction="#cboCountry_SelectionChanged" minWidth="200"/>
         </VBox>
         <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2" spacing="10">
             <Button fx:id="btnAdd" text="Add New Customer" onAction="#btnAdd_Click"/>

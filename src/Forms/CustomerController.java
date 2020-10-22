@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Objects;
 
 public class CustomerController {
     @FXML TableView<Customer> grdCustomers = new TableView<>();
@@ -32,13 +33,13 @@ public class CustomerController {
 
     public void init() {
         try {
+            cboCountry.setItems(countries);
+            cboFirstLevelDivision.setItems(divisions);
+            grdCustomers.setItems(customers);
+
             GetAllCountries();
             GetAllDivisions();
             GetAllCustomers();
-
-            grdCustomers.setItems(customers);
-            cboCountry.setItems(countries);
-            cboFirstLevelDivision.setItems(divisions);
         } catch (Exception ex){
             ex.printStackTrace();
         }
