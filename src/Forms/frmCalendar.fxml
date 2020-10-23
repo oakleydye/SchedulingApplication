@@ -69,7 +69,7 @@
             <TextField fx:id="txtTitle"/>
             <TextField fx:id="txtDescription"/>
             <TextField fx:id="txtLocation"/>
-            <ComboBox fx:id="cboContact"/>
+            <ComboBox fx:id="cboContact" minWidth="200"/>
             <TextField fx:id="txtType"/>
             <TextField fx:id="txtStart"/>
             <TextField fx:id="txtEnd"/>

@@ -3,6 +3,7 @@ package Forms;
 import Libraries.ConnectionManager;
 import Libraries.Customer;
 import Libraries.TranslationManager;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,7 +15,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Locale;
-import java.util.Objects;
 
 public class CustomerController {
     @FXML TableView<Customer> grdCustomers = new TableView<>();

@@ -2,6 +2,7 @@ package Forms;
 
 import Libraries.ConnectionManager;
 import Libraries.TranslationManager;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -40,7 +41,6 @@ public class LoginController {
     }
 
     public void btnLogin_Click(ActionEvent actionEvent) {
-        //// TODO: 10/22/20 add code to log attempts to a file here 
         try{
             if (!txtUsername.getText().equals("") && !txtPassword.getText().equals("")){
                 Connection connection = ConnectionManager.GetConnection();
@@ -87,7 +87,7 @@ public class LoginController {
     }
 
     private void WriteToFile(boolean isSuccessful){
-        try{
+        try {
             File file = new File("login_activity.txt");
             if (!file.exists()) { file.createNewFile(); }
             FileWriter writer = new FileWriter(file, true);

@@ -1,6 +1,7 @@
 package Forms;
 
 import Libraries.*;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -231,6 +232,10 @@ public class CalendarController {
                     CallableStatement stmt = conn.prepareCall(query);
                     stmt.setString(1, txtAppointmentId.getText());
                     stmt.executeQuery();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Appointment " + txtTitle.getText() + " cancelled");
+                    alert.showAndWait();
+                    btnAdd_Click(actionEvent);
                 } else {
                     throw new Exception("Error establishing database connections");
                 }
