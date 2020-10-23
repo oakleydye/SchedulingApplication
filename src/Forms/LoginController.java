@@ -10,10 +10,14 @@ import javafx.scene.control.*;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 public class LoginController {
@@ -26,8 +30,8 @@ public class LoginController {
     public static String currentUser;
 
     public void init(){
-        //// TODO: 10/21/20 Add in ability to show user location here, as well as language control
-        Locale.setDefault(new Locale("fr"));
+        //// TODO: 10/21/20 Add in ability to show user location here
+        //Locale.setDefault(new Locale("fr"));
         if (!Locale.getDefault().getLanguage().equals("en")){
             lblUsername.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblUsername.getText()));
             lblPwd.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblPwd.getText()));
@@ -36,6 +40,7 @@ public class LoginController {
     }
 
     public void btnLogin_Click(ActionEvent actionEvent) {
+        //// TODO: 10/22/20 add code to log attempts to a file here 
         try{
             if (!txtUsername.getText().equals("") && !txtPassword.getText().equals("")){
                 Connection connection = ConnectionManager.GetConnection();
@@ -45,32 +50,52 @@ public class LoginController {
                     stmt.setString(1, txtUsername.getText());
                     stmt.setString(2, txtPassword.getText());
                     ResultSet rs = stmt.executeQuery();
+                    int count = 0;
                     while (rs.next()){
+                        count++;
                         if (rs.getString("Valid").equals("True")){
                             currentUser = txtUsername.getText();
+                            WriteToFile(true);
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("frmCalendar.fxml"));
                             Parent root = loader.load();
-                            CalendarController controller = new CalendarController();
-                            controller.init(GetUserId(txtUsername.getText()));
                             Stage stage = new Stage();
+                            stage.setTitle("Scheduling Manager");
                             stage.setScene(new Scene(root, 1280, 800));
+                            CalendarController controller = loader.getController();
+                            controller.init(GetUserId(txtUsername.getText()));
                             stage.show();
 
                             Stage stage2 = (Stage) txtUsername.getScene().getWindow();
                             stage2.close();
                         }
                         else{
+                            WriteToFile(false);
                             Alert alert = new Alert(Alert.AlertType.ERROR);
                             alert.setContentText("Incorrect password");
                             alert.setHeaderText("");
                             alert.showAndWait();
                         }
                     }
+                    if (count == 0) { WriteToFile(false); }
                     connection.close();
                 }
             }
         }
         catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private void WriteToFile(boolean isSuccessful){
+        try{
+            File file = new File("login_activity.txt");
+            if (!file.exists()) { file.createNewFile(); }
+            FileWriter writer = new FileWriter(file, true);
+            BufferedWriter bw = new BufferedWriter(writer);
+            bw.write("Login attempt by " + txtUsername.getText() + " on " + LocalDateTime.now() + " was " + (isSuccessful ? "successful." : "not successful."));
+            bw.newLine();
+            bw.close();
+        } catch (Exception ex){
             ex.printStackTrace();
         }
     }

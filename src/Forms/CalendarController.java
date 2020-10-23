@@ -55,6 +55,8 @@ public class CalendarController {
     @FXML Label lblStart;
     @FXML Label lblEnd;
     @FXML Label lblCustId;
+    @FXML RadioButton rbMonth;
+    @FXML RadioButton rbWeek;
 
     public void init(int userId){
         FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId)));
@@ -83,6 +85,8 @@ public class CalendarController {
             btnSave.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnSave.getText()));
             btnDelete.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnDelete.getText()));
             btnCustomers.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnCustomers.getText()));
+            rbMonth.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), rbMonth.getText()));
+            rbWeek.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), rbWeek.getText()));
         }
     }
 
@@ -240,7 +244,7 @@ public class CalendarController {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("frmCustomer.fxml"));
             Parent root = loader.load();
-            CustomerController controller = new CustomerController();
+            CustomerController controller = loader.getController();
             controller.init();
             Stage stage = new Stage();
             stage.setScene(new Scene(root, 1280, 800));
@@ -249,5 +253,13 @@ public class CalendarController {
         catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public void rbMonth_Click(ActionEvent actionEvent) {
+
+    }
+
+    public void rbWeek_Click(ActionEvent actionEvent) {
+
     }
 }

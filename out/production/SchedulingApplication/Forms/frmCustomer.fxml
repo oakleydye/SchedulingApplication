@@ -16,34 +16,34 @@
     <GridPane hgap="10" vgap="10">
         <TableView fx:id="grdCustomers" onMouseClicked="#grdCustomers_Click" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
             <columns>
-                <TableColumn text="Customer ID">
+                <TableColumn fx:id="colId" text="Customer ID">
                     <cellValueFactory><PropertyValueFactory property="CustomerId"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Name">
+                <TableColumn fx:id="colName" text="Name">
                     <cellValueFactory><PropertyValueFactory property="name"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Phone #">
+                <TableColumn fx:id="colPhone" text="Phone #">
                     <cellValueFactory><PropertyValueFactory property="phone"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Address">
+                <TableColumn fx:id="colAddress" text="Address">
                     <cellValueFactory><PropertyValueFactory property="address"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Zip">
+                <TableColumn fx:id="colZip" text="Zip Code">
                     <cellValueFactory><PropertyValueFactory property="zip"/> </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="First Level Division">
+                <TableColumn fx:id="colDivision" text="First Level Division">
                     <cellValueFactory><PropertyValueFactory property="DivisionId"/> </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>
         <VBox spacing="16" GridPane.columnIndex="3" GridPane.rowIndex="1">
-            <Label text="Customer ID"/>
-            <Label text="Name"/>
-            <Label text="Phone"/>
-            <Label text="Address"/>
-            <Label text="Zip"/>
-            <Label text="First Level Division"/>
-            <Label text="Country"/>
+            <Label fx:id="lblId" text="Customer ID"/>
+            <Label fx:id="lblName" text="Name"/>
+            <Label fx:id="lblPhone" text="Phone"/>
+            <Label fx:id="lblAddress" text="Address"/>
+            <Label fx:id="lblZip" text="Zip Code"/>
+            <Label fx:id="lblDivision" text="First Level Division"/>
+            <Label fx:id="lblCountry" text="Country"/>
         </VBox>
         <VBox GridPane.columnIndex="5" GridPane.rowIndex="1" spacing="5">
             <TextField fx:id="txtCustomerID" disable="true"/>

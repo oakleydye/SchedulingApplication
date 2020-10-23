@@ -14,7 +14,14 @@
           prefHeight="800" prefWidth="1280">
 
     <GridPane hgap="10" vgap="10">
-        <TableView fx:id="grdAppointment" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.rowSpan="2">
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <fx:define>
+                <ToggleGroup fx:id="grpFilter"/>
+            </fx:define>
+            <RadioButton fx:id="rbMonth" text="Month" selected="true" onAction="#rbMonth_Click" toggleGroup="$grpFilter"/>
+            <RadioButton fx:id="rbWeek" text="Week" onAction="#rbWeek_Click" toggleGroup="$grpFilter"/>
+        </HBox>
+        <TableView fx:id="grdAppointment" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.rowSpan="2">
             <columns>
                 <TableColumn fx:id="colID" text="Appointment ID">
                     <cellValueFactory><PropertyValueFactory property="AppointmentId"/></cellValueFactory>
@@ -46,7 +53,7 @@
             </columns>
         </TableView>
 
-        <VBox GridPane.columnIndex="3" GridPane.rowIndex="1" spacing="16">
+        <VBox GridPane.columnIndex="3" GridPane.rowIndex="2" spacing="16">
             <Label fx:id="lblId" text="Appointment Id"/>
             <Label fx:id="lblTitle" text="Title"/>
             <Label fx:id="lblDesc" text="Description"/>
@@ -57,7 +64,7 @@
             <Label fx:id="lblEnd" text="End"/>
             <Label fx:id="lblCustId" text="Customer ID"/>
         </VBox>
-        <VBox GridPane.columnIndex="5" GridPane.rowIndex="1" spacing="5">
+        <VBox GridPane.columnIndex="5" GridPane.rowIndex="2" spacing="5">
             <TextField fx:id="txtAppointmentId" disable="true"/>
             <TextField fx:id="txtTitle"/>
             <TextField fx:id="txtDescription"/>
@@ -68,12 +75,12 @@
             <TextField fx:id="txtEnd"/>
             <TextField fx:id="txtCustomerId"/>
         </VBox>
-        <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2" spacing="10">
+        <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="3" spacing="10">
             <Button fx:id="btnAdd" text="Add New Appointment" onAction="#btnAdd_Click"/>
             <Button fx:id="btnSave" text="Save" onAction="#btnSave_Click"/>
             <Button fx:id="btnDelete" text="Delete" onAction="#btnDelete_Click"/>
         </HBox>
-        <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="3" spacing="10">
+        <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4" spacing="10">
             <Button fx:id="btnCustomers" text="Manage Customers" onAction="#btnCustomers_Click"/>
         </HBox>
     </GridPane>

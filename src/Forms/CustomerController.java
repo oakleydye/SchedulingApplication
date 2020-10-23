@@ -2,19 +2,18 @@ package Forms;
 
 import Libraries.ConnectionManager;
 import Libraries.Customer;
+import Libraries.TranslationManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Locale;
 import java.util.Objects;
 
 public class CustomerController {
@@ -31,6 +30,23 @@ public class CustomerController {
     @FXML ComboBox<String> cboFirstLevelDivision = new ComboBox<>();
     @FXML ComboBox<String> cboCountry = new ComboBox<>();
 
+    @FXML TableColumn colId;
+    @FXML TableColumn colName;
+    @FXML TableColumn colPhone;
+    @FXML TableColumn colAddress;
+    @FXML TableColumn colZip;
+    @FXML TableColumn colDivision;
+    @FXML Label lblId;
+    @FXML Label lblName;
+    @FXML Label lblPhone;
+    @FXML Label lblAddress;
+    @FXML Label lblZip;
+    @FXML Label lblDivision;
+    @FXML Label lblCountry;
+    @FXML Button btnAdd;
+    @FXML Button btnSave;
+    @FXML Button btnDelete;
+
     public void init() {
         try {
             cboCountry.setItems(countries);
@@ -40,6 +56,25 @@ public class CustomerController {
             GetAllCountries();
             GetAllDivisions();
             GetAllCustomers();
+
+            if (!Locale.getDefault().getLanguage().equals("en")){
+                colId.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colId.getText()));
+                colName.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colName.getText()));
+                colPhone.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colPhone.getText()));
+                colAddress.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colAddress.getText()));
+                colZip.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colZip.getText()));
+                colDivision.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colDivision.getText()));
+                lblId.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblId.getText()));
+                lblName.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblName.getText()));
+                lblPhone.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblPhone.getText()));
+                lblAddress.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblAddress.getText()));
+                lblZip.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblZip.getText()));
+                lblDivision.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblDivision.getText()));
+                lblCountry.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblCountry.getText()));
+                btnAdd.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnAdd.getText()));
+                btnSave.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnSave.getText()));
+                btnDelete.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnDelete.getText()));
+            }
         } catch (Exception ex){
             ex.printStackTrace();
         }
