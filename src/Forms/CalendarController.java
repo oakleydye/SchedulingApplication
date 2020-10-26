@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -58,9 +59,13 @@ public class CalendarController {
     @FXML Label lblCustId;
     @FXML RadioButton rbMonth;
     @FXML RadioButton rbWeek;
+    @FXML RadioButton rbAll;
+    @FXML Button btnReport;
+    @FXML Button btnEventReport;
+    @FXML Button btnScheduleReport;
 
     public void init(int userId){
-        FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId)));
+        FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId, 1)));
         grdAppointment.setItems(appointments);
 
         if (!Locale.getDefault().getLanguage().equals("en")){
@@ -88,10 +93,14 @@ public class CalendarController {
             btnCustomers.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnCustomers.getText()));
             rbMonth.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), rbMonth.getText()));
             rbWeek.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), rbWeek.getText()));
+            rbAll.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), rbAll.getText()));
+            btnReport.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnReport.getText()));
+            btnEventReport.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnEventReport.getText()));
+            btnScheduleReport.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnScheduleReport.getText()));
         }
     }
 
-    private ObservableList<Appointment> GetAllAppointments(int userId){
+    private ObservableList<Appointment> GetAllAppointments(int userId, int flag){
         try{
             ObservableList<Appointment> appointments = FXCollections.observableArrayList();
             Connection connection = ConnectionManager.GetConnection();
@@ -261,10 +270,29 @@ public class CalendarController {
     }
 
     public void rbMonth_Click(ActionEvent actionEvent) {
-
+        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 1)));
+        grdAppointment.setItems(appointments);
     }
 
     public void rbWeek_Click(ActionEvent actionEvent) {
+        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 2)));
+        grdAppointment.setItems(appointments);
+    }
+
+    public void rbAll_Click(ActionEvent actionEvent) {
+        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 0)));
+        grdAppointment.setItems(appointments);
+    }
+
+    public void btnEventReport_Click(ActionEvent actionEvent) {
+
+    }
+
+    public void btnScheduleReport_Click(ActionEvent actionEvent) {
+
+    }
+
+    public void btnReport_Click(ActionEvent actionEvent) {
 
     }
 }

@@ -29,6 +29,7 @@ public class LoginController {
     @FXML Button btnLogin;
 
     public static String currentUser;
+    public static int userID;
 
     public void init(){
         //// TODO: 10/21/20 Add in ability to show user location here
@@ -55,6 +56,7 @@ public class LoginController {
                         count++;
                         if (rs.getString("Valid").equals("True")){
                             currentUser = txtUsername.getText();
+                            userID = GetUserId(currentUser);
                             WriteToFile(true);
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("frmCalendar.fxml"));
                             Parent root = loader.load();
@@ -62,7 +64,7 @@ public class LoginController {
                             stage.setTitle("Scheduling Manager");
                             stage.setScene(new Scene(root, 1280, 800));
                             CalendarController controller = loader.getController();
-                            controller.init(GetUserId(txtUsername.getText()));
+                            controller.init(userID);
                             stage.show();
 
                             Stage stage2 = (Stage) txtUsername.getScene().getWindow();
