@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.sql.CallableStatement;
@@ -23,6 +24,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * @author oakleydye
+ *
+ * Controller class for frmCalendar.fxml
+ */
 public class CalendarController {
     @FXML TableView<Appointment> grdAppointment = new TableView<>();
     @FXML TextField txtAppointmentId;
@@ -64,8 +70,12 @@ public class CalendarController {
     @FXML Button btnEventReport;
     @FXML Button btnScheduleReport;
 
-    public void init(int userId){
-        FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(userId, 1)));
+    /**
+     * Method called on startup, handles binding of appointments to grid and translation of page elements
+     *
+     */
+    public void init(){
+        FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 1)));
         grdAppointment.setItems(appointments);
 
         if (!Locale.getDefault().getLanguage().equals("en")){
@@ -100,6 +110,12 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Method to get all appointments by user
+     * @param userId current user id
+     * @param flag tells the proc what appointments to get, 1 = month, 2 = week, 0 = all
+     * @return list of appointments to add to grdAppointments
+     */
     private ObservableList<Appointment> GetAllAppointments(int userId, int flag){
         try{
             ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -134,6 +150,11 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Gets a customer object from a given customer id
+     * @param customerId
+     * @return Libraries.Customer
+     */
     private Customer GetCustomer(int customerId){
         try{
             Customer customer = new Customer();
@@ -164,6 +185,10 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Event handler, clears all the fields in the form so that a new appointment can be created
+     * @param actionEvent
+     */
     public void btnAdd_Click(ActionEvent actionEvent) {
         txtAppointmentId.clear();
         txtTitle.clear();
@@ -175,6 +200,10 @@ public class CalendarController {
         txtCustomerId.clear();
     }
 
+    /**
+     * Event handler, saves values in all the fields. Takes care of both new appointments and updates
+     * @param actionEvent
+     */
     public void btnSave_Click(ActionEvent actionEvent) {
         try{
             if (txtAppointmentId.getText().equals("")){
@@ -187,6 +216,9 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Inserts a new appointment into the database
+     */
     private void InsertNewAppointment(){
         try{
             Connection conn = ConnectionManager.GetConnection();
@@ -209,6 +241,9 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Updates an existing appointment in the database
+     */
     private void UpdateExistingAppointment(){
         try{
             Connection conn = ConnectionManager.GetConnection();
@@ -232,6 +267,10 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Event handler, handles deleting of a selected appointment
+     * @param actionEvent
+     */
     public void btnDelete_Click(ActionEvent actionEvent) {
         try{
             if (!txtAppointmentId.getText().equals("")){
@@ -254,6 +293,10 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Event handler, loads up frmCustomers.fxml to manage customers
+     * @param actionEvent
+     */
     public void btnCustomers_Click(ActionEvent actionEvent) {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("frmCustomer.fxml"));
@@ -269,16 +312,28 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Event handler, gets appointments for the current month and adds them to the grid
+     * @param actionEvent
+     */
     public void rbMonth_Click(ActionEvent actionEvent) {
         FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 1)));
         grdAppointment.setItems(appointments);
     }
 
+    /**
+     * Event handler, gets appointments for the current week and adds them to the grid
+     * @param actionEvent
+     */
     public void rbWeek_Click(ActionEvent actionEvent) {
         FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 2)));
         grdAppointment.setItems(appointments);
     }
 
+    /**
+     * Event handler, gets all appointments and adds them to the grid
+     * @param actionEvent
+     */
     public void rbAll_Click(ActionEvent actionEvent) {
         FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 0)));
         grdAppointment.setItems(appointments);
@@ -294,5 +349,25 @@ public class CalendarController {
 
     public void btnReport_Click(ActionEvent actionEvent) {
 
+    }
+
+    /**
+     * Event handler, populates appointment info from the grid to the text fields for editing
+     * @param mouseEvent
+     */
+    public void grdAppointment_Click(MouseEvent mouseEvent) {
+        Appointment selectedAppointment = grdAppointment.getSelectionModel().getSelectedItem();
+        if (selectedAppointment != null){
+            txtAppointmentId.setText(Integer.toString(selectedAppointment.getAppointmentId()));
+            txtTitle.setText(selectedAppointment.getTitle());
+            txtDescription.setText(selectedAppointment.getDescription());
+            txtLocation.setText(selectedAppointment.getLocation());
+            /** discussion of lambda */
+            cboContact.getSelectionModel().select(cboContact.getItems().stream().filter(x -> x.getContactId() == selectedAppointment.getContact().getContactId()).findFirst().orElse(null));
+            txtType.setText(selectedAppointment.getType());
+            txtStart.setText(selectedAppointment.getStartTime().toString());
+            txtEnd.setText(selectedAppointment.getEndTime().toString());
+            txtCustomerId.setText(Integer.toString(selectedAppointment.getCustomer().getCustomerId()));
+        }
     }
 }

@@ -22,7 +22,7 @@
             <RadioButton fx:id="rbWeek" text="Week" onAction="#rbWeek_Click" toggleGroup="$grpFilter"/>
             <RadioButton fx:id="rbAll" text="All" onAction="#rbAll_Click" toggleGroup="$grpFilter"/>
         </HBox>
-        <TableView fx:id="grdAppointment" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.rowSpan="2">
+        <TableView fx:id="grdAppointment" onMouseClicked="#grdAppointment_Click" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.rowSpan="2">
             <columns>
                 <TableColumn fx:id="colID" text="Appointment ID">
                     <cellValueFactory><PropertyValueFactory property="AppointmentId"/></cellValueFactory>

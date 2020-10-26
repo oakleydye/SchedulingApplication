@@ -21,6 +21,11 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+/**
+ * @author oakleydye
+ *
+ * Controller class for frmLogin.fxml
+ */
 public class LoginController {
     @FXML TextField txtUsername;
     @FXML PasswordField txtPassword;
@@ -31,6 +36,11 @@ public class LoginController {
     public static String currentUser;
     public static int userID;
 
+    /**
+     * method called on startup, handles translation
+     *
+     * CHANGE LOCALE HERE FOR LANGUAGE TESTING
+     */
     public void init(){
         //// TODO: 10/21/20 Add in ability to show user location here
         //Locale.setDefault(new Locale("fr"));
@@ -41,6 +51,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * Event handler, validates input and allows user into the application.
+     * Also handles logging of attempts to login and assigning global user variables
+     * @param actionEvent
+     */
     public void btnLogin_Click(ActionEvent actionEvent) {
         try{
             if (!txtUsername.getText().equals("") && !txtPassword.getText().equals("")){
@@ -64,7 +79,7 @@ public class LoginController {
                             stage.setTitle("Scheduling Manager");
                             stage.setScene(new Scene(root, 1280, 800));
                             CalendarController controller = loader.getController();
-                            controller.init(userID);
+                            controller.init();
                             stage.show();
 
                             Stage stage2 = (Stage) txtUsername.getScene().getWindow();
@@ -88,6 +103,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Method to handle writing login attempts to a file
+     * @param isSuccessful dictates what text is written based on whether or not the attempt was successful
+     */
     private void WriteToFile(boolean isSuccessful){
         try {
             File file = new File("login_activity.txt");
@@ -102,6 +121,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * Helper method to get a user id from a username
+     * @param username string value, current username
+     * @return int, userId
+     */
     private int GetUserId(String username){
         try{
             Connection connection = ConnectionManager.GetConnection();

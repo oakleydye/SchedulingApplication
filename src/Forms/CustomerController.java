@@ -16,6 +16,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Locale;
 
+/**
+ * @author oakleydye
+ *
+ * Controller for frmCustomer.fxml
+ */
 public class CustomerController {
     @FXML TableView<Customer> grdCustomers = new TableView<>();
     ObservableList<Customer> customers = FXCollections.observableArrayList();
@@ -47,6 +52,10 @@ public class CustomerController {
     @FXML Button btnSave;
     @FXML Button btnDelete;
 
+    /**
+     * Method called on startup of frmCustomer.fxml
+     * Handles binding of objects to comboboxes and translation of the page
+     */
     public void init() {
         try {
             cboCountry.setItems(countries);
@@ -80,6 +89,9 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Helper method to get all countries from the database
+     */
     private void GetAllCountries() {
         try {
             Connection connection = ConnectionManager.GetConnection();
@@ -99,6 +111,9 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Helper method to get all first level divisions from the database
+     */
     private void GetAllDivisions() {
         try{
             Connection conn = ConnectionManager.GetConnection();
@@ -119,6 +134,9 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Helper method to get all customers from the database
+     */
     private void GetAllCustomers(){
         try{
             Connection conn = ConnectionManager.GetConnection();
@@ -145,6 +163,10 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Event handler, clears all text fields to allow for creation of a new customer
+     * @param actionEvent
+     */
     public void btnAdd_Click(ActionEvent actionEvent) {
         txtCustomerID.clear();
         txtName.clear();
@@ -153,6 +175,10 @@ public class CustomerController {
         txtZip.clear();
     }
 
+    /**
+     * Event handler, updates and creates records in the database for customers
+     * @param actionEvent
+     */
     public void btnSave_Click(ActionEvent actionEvent) {
         try{
             Connection conn = ConnectionManager.GetConnection();
@@ -187,6 +213,10 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Event handler, deletes selected customer from the database
+     * @param actionEvent
+     */
     public void btnDelete_Click(ActionEvent actionEvent) {
         try{
             Connection conn = ConnectionManager.GetConnection();
@@ -214,6 +244,10 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Event handler, populates selected row into the text fields to allow for editing
+     * @param mouseEvent
+     */
     public void grdCustomers_Click(MouseEvent mouseEvent) {
         Customer selectedCustomer = grdCustomers.getSelectionModel().getSelectedItem();
         if (selectedCustomer != null){
@@ -227,6 +261,10 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Event handler, allows for filtering of divisions based on selected country
+     * @param actionEvent
+     */
     public void cboCountry_SelectionChanged(ActionEvent actionEvent) {
         String currentCountry = cboCountry.getSelectionModel().getSelectedItem();
         if (!currentCountry.equals("")){
