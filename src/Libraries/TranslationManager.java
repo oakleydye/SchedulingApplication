@@ -7,6 +7,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * @author oakleydye
+ *
+ * Helper class, interfaces with a google apps script to use google translate for translation of the app
+ * This allows the app to be translated into any language, not just one.
+ *
+ * Google script is attached as well in Libraries.googleScript.js
+ */
 public class TranslationManager {
     public static String translate(String langFrom, String langTo, String text){
         try{

@@ -2,6 +2,12 @@ package Libraries;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author oakleydye
+ *
+ * Object class, represents entries in the appointments table
+ * Only methods are getters and setters for private object members
+ */
 public class Appointment {
     private int AppointmentId;
     private String title;

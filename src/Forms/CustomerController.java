@@ -256,9 +256,28 @@ public class CustomerController {
             txtPhone.setText(selectedCustomer.getPhone());
             txtAddress.setText(selectedCustomer.getAddress());
             txtZip.setText(Integer.toString(selectedCustomer.getZip()));
-            cboCountry.getSelectionModel().select(1); //// TODO: 10/19/20 fix this to make the division name display
+            /** discussion on lambda */
+            cboCountry.getSelectionModel().select(cboCountry.getItems().stream().filter(x -> x.equals(GetCountryFromDivisionId(selectedCustomer.getDivisionId()))).findFirst().orElse(null));
             cboFirstLevelDivision.getSelectionModel().select(1); //// TODO: 10/19/20 fix this one as well
         }
+    }
+
+    private String GetCountryFromDivisionId(int divisionId){
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL CountryByDivisionIdGet(?)";
+                CallableStatement stmt = conn.prepareCall(query);
+                stmt.setInt(1, divisionId);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()){
+                    return rs.getString("Country");
+                }
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return "";
     }
 
     /**

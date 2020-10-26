@@ -3,6 +3,12 @@ package Libraries;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * @author oakleydye
+ *
+ * Object class, represents entries in the customers table
+ * All methods are getters and setters for private class members
+ */
 public class Customer {
     private int CustomerId;
     private String name;
