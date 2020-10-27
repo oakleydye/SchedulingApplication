@@ -262,6 +262,11 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Helper method to get a country for a given division
+     * @param divisionId int, division of the needed country
+     * @return String, country name
+     */
     private String GetCountryFromDivisionId(int divisionId){
         try{
             Connection conn = ConnectionManager.GetConnection();
@@ -280,6 +285,11 @@ public class CustomerController {
         return "";
     }
 
+    /**
+     * Helper method, gets the name of a division by the id
+     * @param divisionId int division id
+     * @return String, name of the division
+     */
     private String GetDivisionFromDivisionId(int divisionId){
         try{
             Connection conn = ConnectionManager.GetConnection();
