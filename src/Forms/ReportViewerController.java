@@ -14,4 +14,16 @@ public class ReportViewerController {
             grdReport.getColumns().add(new TableColumn<>(column));
         }
     }
+
+    public void buildEventReport(){
+
+    }
+
+    public void buildScheduleReport(){
+
+    }
+
+    public void buildReport(){
+
+    }
 }

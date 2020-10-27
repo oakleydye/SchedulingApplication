@@ -20,9 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author oakleydye
@@ -339,16 +337,60 @@ public class CalendarController {
         grdAppointment.setItems(appointments);
     }
 
+    /**
+     * Event handler, builds report for events
+     * @param actionEvent
+     */
     public void btnEventReport_Click(ActionEvent actionEvent) {
-
+        try{
+            List<String> columns = Arrays.asList("Appointment ID", "Title", "Description", "Location", "Contact", "Type", "Start", "End", "Customer ID");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportViewer.fxml"));
+            Parent root = loader.load();
+            ReportViewerController controller = loader.getController();
+            controller.init(columns);
+            controller.buildEventReport();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 800, 600));
+            stage.show();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
+    /**
+     * Event handler, builds report for schedule
+     * @param actionEvent
+     */
     public void btnScheduleReport_Click(ActionEvent actionEvent) {
-
+        try{
+            List<String> columns = Arrays.asList("Appointment ID", "Title", "Description", "Location", "Contact", "Type", "Start", "End", "Customer ID");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportViewer.fxml"));
+            Parent root = loader.load();
+            ReportViewerController controller = loader.getController();
+            controller.init(columns);
+            controller.buildScheduleReport();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 800, 600));
+            stage.show();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     public void btnReport_Click(ActionEvent actionEvent) {
-
+        try{
+            List<String> columns = Arrays.asList();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportViewer.fxml"));
+            Parent root = loader.load();
+            ReportViewerController controller = loader.getController();
+            controller.init(columns);
+            controller.buildReport();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 800, 600));
+            stage.show();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     /**
