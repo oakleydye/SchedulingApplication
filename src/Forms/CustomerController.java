@@ -258,7 +258,7 @@ public class CustomerController {
             txtZip.setText(Integer.toString(selectedCustomer.getZip()));
             /** discussion on lambda */
             cboCountry.getSelectionModel().select(cboCountry.getItems().stream().filter(x -> x.equals(GetCountryFromDivisionId(selectedCustomer.getDivisionId()))).findFirst().orElse(null));
-            cboFirstLevelDivision.getSelectionModel().select(1); //// TODO: 10/19/20 fix this one as well
+            cboFirstLevelDivision.getSelectionModel().select(cboFirstLevelDivision.getItems().stream().filter(x -> x.equals(GetDivisionFromDivisionId(selectedCustomer.getDivisionId()))).findFirst().orElse(null));
         }
     }
 
@@ -275,6 +275,25 @@ public class CustomerController {
                 }
             }
         } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return "";
+    }
+
+    private String GetDivisionFromDivisionId(int divisionId){
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL DivisionByDivisionIdGet(?)";
+                CallableStatement stmt = conn.prepareCall(query);
+                stmt.setInt(1, divisionId);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()){
+                    return rs.getString("Division");
+                }
+            }
+        }
+        catch (Exception ex){
             ex.printStackTrace();
         }
         return "";
