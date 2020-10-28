@@ -26,7 +26,7 @@ public class ReportViewerController {
 
     public void buildEventReport(){
         try{
-            List<String> customers = new ArrayList<String>();
+            List<String> customers = new ArrayList<>();
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
                 String query = "CALL CustomerInfoGet()";
@@ -47,7 +47,7 @@ public class ReportViewerController {
                     }
 
                     if (types.size() > 0){
-                        List<String> customerTypes = new ArrayList<>();
+                        List<String> customerTypes;
                         for (String customer : customers){
                             /** discussion of lambda */
                             customerTypes = types.entrySet().stream().filter(x -> x.getKey().equals(customer)).map(Map.Entry::getValue).collect(Collectors.toList());
