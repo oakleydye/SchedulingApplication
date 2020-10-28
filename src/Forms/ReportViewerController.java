@@ -79,10 +79,64 @@ public class ReportViewerController {
     }
 
     public void buildScheduleReport(){
+        try{
+            List<String> users = new ArrayList<>();
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL AllUsersGet()";
+                CallableStatement stmt = conn.prepareCall(query);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()){
+                    users.add(rs.getString("User_Name"));
+                }
 
+                if (users.size() > 0){
+                    for (String user : users){
+                        int userId = GetUserId(user);
+                        String query2 = "CALL GetAppointmentsByUser(?, ?)";
+                        CallableStatement stmt2 = conn.prepareCall(query2);
+                        stmt2.setInt(1, userId);
+                        stmt2.setInt(2, 0);
+                        ResultSet rs2 = stmt2.executeQuery();
+                        while (rs2.next()){
+                            Report report = new Report(
+                                    user,
+                                    rs2.getString("Appointment_ID"),
+                                    rs2.getString("Title"),
+                                    rs2.getString("Description"),
+                                    rs2.getString("Start"),
+                                    rs2.getString("End"),
+                                    rs2.getString("Customer_ID")
+                            );
+                            grdReport.getItems().add(report);
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private int GetUserId(String user){
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL GetUserId(?)";
+                CallableStatement stmt = conn.prepareCall(query);
+                stmt.setString(1, user);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()){
+                    return rs.getInt("User_ID");
+                }
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return 0;
     }
 
     public void buildReport(){
-
+        
     }
 }

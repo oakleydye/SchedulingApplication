@@ -11,6 +11,7 @@ public class Report {
     private String Start;
     private String End;
     private String Customer_ID;
+    private String UserName;
 
     public Report(String cust, String month, String type, String appts){
         this.Customer = cust;
@@ -19,13 +20,22 @@ public class Report {
         this.Appointments = appts;
     }
 
-    public Report(String apptId, String title, String desc, String start, String end, String custId){
+    public Report(String username, String apptId, String title, String desc, String start, String end, String custId){
+        this.UserName = username;
         this.Appointment_ID = apptId;
         this.Title = title;
         this.Description = desc;
         this.Start = start;
         this.End = end;
         this.Customer_ID = custId;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 
     public String getCustomer() {

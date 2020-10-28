@@ -364,7 +364,7 @@ public class CalendarController {
      */
     public void btnScheduleReport_Click(ActionEvent actionEvent) {
         try{
-            List<String> columns = Arrays.asList("Appointment ID", "Title", "Type", "Description", "Start", "End", "Customer ID");
+            List<String> columns = Arrays.asList("UserName", "Appointment ID", "Title", "Type", "Description", "Start", "End", "Customer ID");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportViewer.fxml"));
             Parent root = loader.load();
             ReportViewerController controller = loader.getController();
