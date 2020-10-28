@@ -20,8 +20,9 @@
             </fx:define>
             <RadioButton fx:id="rbMonth" text="Month" selected="true" onAction="#rbMonth_Click" toggleGroup="$grpFilter"/>
             <RadioButton fx:id="rbWeek" text="Week" onAction="#rbWeek_Click" toggleGroup="$grpFilter"/>
+            <RadioButton fx:id="rbAll" text="All" onAction="#rbAll_Click" toggleGroup="$grpFilter"/>
         </HBox>
-        <TableView fx:id="grdAppointment" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.rowSpan="2">
+        <TableView fx:id="grdAppointment" onMouseClicked="#grdAppointment_Click" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.rowSpan="2">
             <columns>
                 <TableColumn fx:id="colID" text="Appointment ID">
                     <cellValueFactory><PropertyValueFactory property="AppointmentId"/></cellValueFactory>
@@ -69,7 +70,7 @@
             <TextField fx:id="txtTitle"/>
             <TextField fx:id="txtDescription"/>
             <TextField fx:id="txtLocation"/>
-            <ComboBox fx:id="cboContact"/>
+            <ComboBox fx:id="cboContact" minWidth="200"/>
             <TextField fx:id="txtType"/>
             <TextField fx:id="txtStart"/>
             <TextField fx:id="txtEnd"/>
@@ -82,6 +83,9 @@
         </HBox>
         <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4" spacing="10">
             <Button fx:id="btnCustomers" text="Manage Customers" onAction="#btnCustomers_Click"/>
+            <Button fx:id="btnEventReport" text="Generate Event Report" onAction="#btnEventReport_Click"/>
+            <Button fx:id="btnScheduleReport" text="Generate Schedule" onAction="#btnScheduleReport_Click"/>
+            <Button fx:id="btnReport" text="Generate Report" onAction="#btnReport_Click"/>
         </HBox>
     </GridPane>
 </GridPane>

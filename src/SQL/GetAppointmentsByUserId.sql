@@ -62,7 +62,7 @@ BEGIN
                 a.Customer_ID
             FROM
                 appointments AS a
-                    JOIN contacts AS c ON c.Contact_ID = a.Contact_ID
+                JOIN contacts AS c ON c.Contact_ID = a.Contact_ID
             WHERE
                 a.User_ID = UserId
                 AND YEAR(a.Start) = YEAR(NOW())

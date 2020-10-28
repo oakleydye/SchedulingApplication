@@ -119,9 +119,10 @@ public class CalendarController {
             ObservableList<Appointment> appointments = FXCollections.observableArrayList();
             Connection connection = ConnectionManager.GetConnection();
             if (connection != null){
-                String query = "CALL GetAppointmentsByUser(?)";
+                String query = "CALL GetAppointmentsByUser(?,?)";
                 CallableStatement stmt = connection.prepareCall(query);
                 stmt.setInt(1, userId);
+                stmt.setInt(2, flag);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()){
                     Appointment appt = new Appointment();
