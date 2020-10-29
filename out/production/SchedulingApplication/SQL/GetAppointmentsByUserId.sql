@@ -24,7 +24,9 @@ BEGIN
                 appointments AS a
                 JOIN contacts AS c ON c.Contact_ID = a.Contact_ID
             WHERE
-                a.User_ID = UserId;
+                a.User_ID = UserId
+            ORDER BY
+                a.Start;
         END;
     ELSEIF Flag = 1 THEN /*1 = Month*/
         BEGIN
@@ -45,7 +47,9 @@ BEGIN
             WHERE
                 a.User_ID = UserId
                 AND YEAR(a.Start) = YEAR(NOW())
-                AND MONTH(a.Start) = MONTH(NOW());
+                AND MONTH(a.Start) = MONTH(NOW())
+            ORDER BY
+                a.Start;
         END;
     ELSEIF Flag = 2 THEN /*2 = Week*/
         BEGIN
@@ -62,12 +66,14 @@ BEGIN
                 a.Customer_ID
             FROM
                 appointments AS a
-                    JOIN contacts AS c ON c.Contact_ID = a.Contact_ID
+                JOIN contacts AS c ON c.Contact_ID = a.Contact_ID
             WHERE
                 a.User_ID = UserId
                 AND YEAR(a.Start) = YEAR(NOW())
                 AND MONTH(a.Start) = MONTH(NOW())
-                AND WEEK(a.Start) = WEEK(NOW());
+                AND WEEK(a.Start) = WEEK(NOW())
+            ORDER BY
+                a.Start;
         END;
     END IF;
 END //

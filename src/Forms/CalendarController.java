@@ -378,9 +378,13 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Event handler, generates the contact directory report
+     * @param actionEvent
+     */
     public void btnReport_Click(ActionEvent actionEvent) {
         try{
-            List<String> columns = Arrays.asList();
+            List<String> columns = Arrays.asList("Contact ID", "Contact Name", "Email");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportViewer.fxml"));
             Parent root = loader.load();
             ReportViewerController controller = loader.getController();

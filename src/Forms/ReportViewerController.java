@@ -13,9 +13,19 @@ import java.sql.ResultSet;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author oakleydye
+ *
+ * FXML Controller for ReportViewer.fxml
+ */
 public class ReportViewerController {
     @FXML TableView grdReport;
 
+    /**
+     * Method called on init of the form. This dynamically adds columns to the TableView
+     * for the report being generated
+     * @param columns List of Strings, column headers as they should appear on the report
+     */
     public void init(List<String> columns){
         for (String column : columns){
             TableColumn col = new TableColumn(column);
@@ -24,6 +34,9 @@ public class ReportViewerController {
         }
     }
 
+    /**
+     * Method to generate the report of event counts by client and type
+     */
     public void buildEventReport(){
         try{
             List<String> customers = new ArrayList<>();
@@ -78,6 +91,9 @@ public class ReportViewerController {
         }
     }
 
+    /**
+     * Method to generate the schedule of each employee
+     */
     public void buildScheduleReport(){
         try{
             List<String> users = new ArrayList<>();
@@ -118,6 +134,11 @@ public class ReportViewerController {
         }
     }
 
+    /**
+     * Helper method, returns a user id from a given username
+     * @param user String username
+     * @return int user id
+     */
     private int GetUserId(String user){
         try{
             Connection conn = ConnectionManager.GetConnection();
@@ -136,7 +157,27 @@ public class ReportViewerController {
         return 0;
     }
 
+    /**
+     * Method that builds the contact directory
+     */
     public void buildReport(){
-        
+        try {
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL ContactsGet()";
+                CallableStatement stmt = conn.prepareCall(query);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()){
+                    Report report = new Report(
+                            rs.getString("Contact_ID"),
+                            rs.getString("Contact_Name"),
+                            rs.getString("Email")
+                    );
+                    grdReport.getItems().add(report);
+                }
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

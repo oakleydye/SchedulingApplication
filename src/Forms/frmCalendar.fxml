@@ -81,11 +81,11 @@
             <Button fx:id="btnSave" text="Save" onAction="#btnSave_Click"/>
             <Button fx:id="btnDelete" text="Delete" onAction="#btnDelete_Click"/>
         </HBox>
-        <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4" spacing="10">
+        <HBox GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowIndex="4" spacing="10">
             <Button fx:id="btnCustomers" text="Manage Customers" onAction="#btnCustomers_Click"/>
             <Button fx:id="btnEventReport" text="Generate Event Report" onAction="#btnEventReport_Click"/>
             <Button fx:id="btnScheduleReport" text="Generate Schedule" onAction="#btnScheduleReport_Click"/>
-            <Button fx:id="btnReport" text="Generate Report" onAction="#btnReport_Click"/>
+            <Button fx:id="btnReport" text="Generate Contact Directory Report" onAction="#btnReport_Click"/>
         </HBox>
     </GridPane>
 </GridPane>

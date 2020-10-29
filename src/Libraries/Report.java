@@ -1,5 +1,10 @@
 package Libraries;
 
+/**
+ * @author oakleydye
+ *
+ * Helper class, represents a report as displayed in the application
+ */
 public class Report {
     private String Customer;
     private String Month;
@@ -12,6 +17,9 @@ public class Report {
     private String End;
     private String Customer_ID;
     private String UserName;
+    private String Contact_ID;
+    private String Contact_Name;
+    private String Email;
 
     public Report(String cust, String month, String type, String appts){
         this.Customer = cust;
@@ -28,6 +36,36 @@ public class Report {
         this.Start = start;
         this.End = end;
         this.Customer_ID = custId;
+    }
+
+    public Report(String contactId, String contactName, String email){
+        this.Contact_ID = contactId;
+        this.Contact_Name = contactName;
+        this.Email = email;
+    }
+
+    public String getContact_ID() {
+        return Contact_ID;
+    }
+
+    public void setContact_ID(String contact_ID) {
+        Contact_ID = contact_ID;
+    }
+
+    public String getContact_Name() {
+        return Contact_Name;
+    }
+
+    public void setContact_Name(String contact_Name) {
+        Contact_Name = contact_Name;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getUserName() {
