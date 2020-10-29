@@ -2,6 +2,7 @@ package Forms;
 
 import Libraries.ConnectionManager;
 import Libraries.Report;
+import Libraries.TranslationManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,7 +29,11 @@ public class ReportViewerController {
      */
     public void init(List<String> columns){
         for (String column : columns){
-            TableColumn col = new TableColumn(column);
+            String translatedCol = "";
+            if (!Locale.getDefault().getLanguage().equals("en")){
+                translatedCol = TranslationManager.translate("en", Locale.getDefault().getLanguage(), column);
+            }
+            TableColumn col = new TableColumn(Locale.getDefault().getLanguage() == "en" ? column : translatedCol);
             col.setCellValueFactory(new PropertyValueFactory<>(column.replace("# of ", "").replace(' ', '_')));
             grdReport.getColumns().add(col);
         }
