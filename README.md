@@ -20,3 +20,7 @@ buttons across the bottom of the app that will generate the required
 reports. 
 
 **Report Description**  
+The additional report added to the application is actually 
+a directory of contacts. This report is designed to be used by 
+employees to see all contacts that the organization has in the 
+database.
