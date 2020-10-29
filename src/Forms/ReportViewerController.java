@@ -33,7 +33,7 @@ public class ReportViewerController {
             if (!Locale.getDefault().getLanguage().equals("en")){
                 translatedCol = TranslationManager.translate("en", Locale.getDefault().getLanguage(), column);
             }
-            TableColumn col = new TableColumn(Locale.getDefault().getLanguage() == "en" ? column : translatedCol);
+            TableColumn col = new TableColumn(Locale.getDefault().getLanguage().equals("en") ? column : translatedCol);
             col.setCellValueFactory(new PropertyValueFactory<>(column.replace("# of ", "").replace(' ', '_')));
             grdReport.getColumns().add(col);
         }
