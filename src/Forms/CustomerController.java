@@ -191,7 +191,7 @@ public class CustomerController {
                     stmt.setString(3, txtZip.getText());
                     stmt.setString(4, txtPhone.getText());
                     stmt.setString(5, LoginController.currentUser);
-                    stmt.setString(6, cboFirstLevelDivision.getSelectionModel().getSelectedItem());
+                    stmt.setInt(6, GetDivisionIdFromDivision(cboFirstLevelDivision.getSelectionModel().getSelectedItem()));
                     stmt.executeQuery();
                 } else { //Call update proc here
                     String query = "CALL CustomerUpdate(?,?,?,?,?,?,?)";
@@ -202,7 +202,7 @@ public class CustomerController {
                     stmt.setString(4, txtZip.getText());
                     stmt.setString(5, txtPhone.getText());
                     stmt.setString(6, LoginController.currentUser);
-                    stmt.setString(7, cboFirstLevelDivision.getSelectionModel().getSelectedItem());
+                    stmt.setInt(7, GetDivisionIdFromDivision(cboFirstLevelDivision.getSelectionModel().getSelectedItem()));
                     stmt.executeQuery();
                 }
                 conn.close();
@@ -307,6 +307,24 @@ public class CustomerController {
             ex.printStackTrace();
         }
         return "";
+    }
+
+    private int GetDivisionIdFromDivision(String division){
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL DivisionIdByDivisionGet(?)";
+                CallableStatement stmt = conn.prepareCall(query);
+                stmt.setString(1, division);
+                ResultSet rs = stmt.executeQuery();
+                while(rs.next()){
+                    return rs.getInt("Division_ID");
+                }
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return 0;
     }
 
     /**
