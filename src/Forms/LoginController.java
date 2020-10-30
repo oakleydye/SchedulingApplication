@@ -88,7 +88,7 @@ public class LoginController {
                         else{
                             WriteToFile(false);
                             Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setContentText("Incorrect password");
+                            alert.setContentText(Locale.getDefault().getLanguage().equals("en") ? "Incorrect Password" : TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Incorrect Password"));
                             alert.setHeaderText("");
                             alert.showAndWait();
                         }
@@ -96,7 +96,7 @@ public class LoginController {
                     if (count == 0) {
                         WriteToFile(false);
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("Incorrect password");
+                        alert.setContentText(Locale.getDefault().getLanguage().equals("en") ? "Incorrect Password" : TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Incorrect Password"));
                         alert.setHeaderText("");
                         alert.showAndWait();
                     }
