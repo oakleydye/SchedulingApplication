@@ -409,7 +409,11 @@ public class CalendarController {
             txtTitle.setText(selectedAppointment.getTitle());
             txtDescription.setText(selectedAppointment.getDescription());
             txtLocation.setText(selectedAppointment.getLocation());
-            /** discussion of lambda */
+            /**
+             * discussion of lambda
+             *
+             * The following line filters the combobox based on contact assigned to an appointment
+             */
             cboContact.getSelectionModel().select(cboContact.getItems().stream().filter(x -> x.getContactId() == selectedAppointment.getContact().getContactId()).findFirst().orElse(null));
             txtType.setText(selectedAppointment.getType());
             txtStart.setText(selectedAppointment.getStartTime().toString());

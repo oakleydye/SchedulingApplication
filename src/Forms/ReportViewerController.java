@@ -67,7 +67,12 @@ public class ReportViewerController {
                     if (types.size() > 0){
                         List<String> customerTypes;
                         for (String customer : customers){
-                            /** discussion of lambda */
+                            /**
+                             * discussion of lambda
+                             *
+                             * This line is used to get each type of appointment for a given customer
+                             * used to build the report
+                             */
                             customerTypes = types.entrySet().stream().filter(x -> x.getKey().equals(customer)).map(Map.Entry::getValue).collect(Collectors.toList());
                             if (customerTypes.size() > 0){
                                 for (int i = 0; i < months.size(); i++){
