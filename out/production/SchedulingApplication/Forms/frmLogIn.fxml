@@ -15,5 +15,7 @@
         <Label fx:id="lblPwd" text="Password:" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
         <PasswordField fx:id="txtPassword" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
         <Button fx:id="btnLogin" text="Login" GridPane.rowIndex="5" GridPane.columnIndex="3" onAction="#btnLogin_Click"/>
+
+        <Label fx:id="lblLocation" text="Current Location: " GridPane.rowIndex="7" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
     </GridPane>
 </GridPane>

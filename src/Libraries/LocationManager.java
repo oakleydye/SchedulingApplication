@@ -9,12 +9,16 @@ public class LocationManager {
     public static String GetLocation(){
         try{
             String ip = GetIP();
+            if (ip.equals("")){
+                return "Location not found";
+            }
             URL url = new URL("https://ipapi.co/" + ip + "/region");
             URLConnection conn = url.openConnection();
-            conn.setRequestProperty("User-Agent", "java-ipapi-client");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String location = reader.readLine();
-            reader.close();
+            //conn.setRequestProperty("User-Agent", "java-ipapi-client");
+            String location;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))){
+                location = reader.readLine();
+            }
             return location;
         } catch (Exception ex){
             ex.printStackTrace();

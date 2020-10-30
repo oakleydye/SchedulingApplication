@@ -33,6 +33,7 @@ public class LoginController {
     @FXML Label lblUsername;
     @FXML Label lblPwd;
     @FXML Button btnLogin;
+    @FXML Label lblLocation;
 
     public static String currentUser;
     public static int userID;
@@ -43,13 +44,15 @@ public class LoginController {
      * CHANGE LOCALE HERE FOR LANGUAGE TESTING
      */
     public void init(){
-        //// TODO: 10/21/20 Add in ability to show user location here
-        String location = LocationManager.GetLocation();
+        //Use this line to easily change the language of the program
         //Locale.setDefault(new Locale("fr"));
+        String location = LocationManager.GetLocation();
+        lblLocation.setText(lblLocation.getText() + location);
         if (!Locale.getDefault().getLanguage().equals("en")){
             lblUsername.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblUsername.getText()));
             lblPwd.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblPwd.getText()));
             btnLogin.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnLogin.getText()));
+            lblLocation.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblLocation.getText()));
         }
     }
 
