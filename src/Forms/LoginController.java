@@ -93,7 +93,13 @@ public class LoginController {
                             alert.showAndWait();
                         }
                     }
-                    if (count == 0) { WriteToFile(false); }
+                    if (count == 0) {
+                        WriteToFile(false);
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("Incorrect password");
+                        alert.setHeaderText("");
+                        alert.showAndWait();
+                    }
                     connection.close();
                 }
             }
