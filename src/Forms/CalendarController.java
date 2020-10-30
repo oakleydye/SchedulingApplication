@@ -67,14 +67,51 @@ public class CalendarController {
     @FXML Button btnReport;
     @FXML Button btnEventReport;
     @FXML Button btnScheduleReport;
+    @FXML TextField txtSearch;
+    ObservableList<Appointment> appointmentsList = FXCollections.observableArrayList();
 
     /**
      * Method called on startup, handles binding of appointments to grid and translation of page elements
      *
      */
     public void init(){
-        FilteredList<Appointment> appointments = new FilteredList<Appointment>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 1)));
+        appointmentsList = GetAllAppointments(LoginController.userID, 1);
+        /**
+         * Discussion of lambda
+         *
+         * The following block of code uses several lambda expressions to
+         * add a realtime search to the appointments grid
+         */
+        FilteredList<Appointment> appointments = new FilteredList<>(appointmentsList, p -> true);
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            appointments.setPredicate(appointment -> {
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (appointment.getTitle().toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }
+                else if (Integer.toString(appointment.getAppointmentId()).contains(lowerCaseFilter)){
+                    return true;
+                }
+                else if (appointment.getContact().getName().toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }
+                else return appointment.getType().toLowerCase().contains(lowerCaseFilter);
+            });
+        });
         grdAppointment.setItems(appointments);
+
+        List<Contact> contacts = GetContacts();
+        cboContact.getItems().add(new Contact(0, "Add New", ""));
+        if (contacts != null && contacts.size() > 0){
+            for (Contact contact : contacts){
+                cboContact.getItems().add(contact);
+            }
+        }
+
 
         if (!Locale.getDefault().getLanguage().equals("en")){
             colID.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colID.getText()));
@@ -105,7 +142,28 @@ public class CalendarController {
             btnReport.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnReport.getText()));
             btnEventReport.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnEventReport.getText()));
             btnScheduleReport.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), btnScheduleReport.getText()));
+            txtSearch.setPromptText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), txtSearch.getPromptText()));
         }
+    }
+
+    private List<Contact> GetContacts(){
+        try{
+            List<Contact> contacts = new ArrayList<>();
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL ContactGet()";
+                CallableStatement stmt = conn.prepareCall(query);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()){
+                    Contact contact = new Contact(rs.getInt("Contact_ID"), rs.getString("Contact_Name"), rs.getString("Email"));
+                    contacts.add(contact);
+                }
+            }
+            return contacts;
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -130,9 +188,7 @@ public class CalendarController {
                     appt.setTitle(rs.getString("Title"));
                     appt.setDescription(rs.getString("Description"));
                     appt.setLocation(rs.getString("Location"));
-                    Contact contact = new Contact();
-                    contact.setName(rs.getString("Contact_Name"));
-                    contact.setEmail(rs.getString("Email"));
+                    Contact contact = new Contact(rs.getInt("Contact_ID"), rs.getString("Contact_Name"), rs.getString("Email"));
                     appt.setContact(contact);
                     appt.setType(rs.getString("Type"));
                     appt.setStartTime(LocalDateTime.parse(rs.getString("Start")));
@@ -316,8 +372,9 @@ public class CalendarController {
      * @param actionEvent
      */
     public void rbMonth_Click(ActionEvent actionEvent) {
-        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 1)));
-        grdAppointment.setItems(appointments);
+        appointmentsList = GetAllAppointments(LoginController.userID, 1);
+//        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 1)));
+//        grdAppointment.setItems(appointments);
     }
 
     /**
@@ -325,8 +382,9 @@ public class CalendarController {
      * @param actionEvent
      */
     public void rbWeek_Click(ActionEvent actionEvent) {
-        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 2)));
-        grdAppointment.setItems(appointments);
+        appointmentsList = GetAllAppointments(LoginController.userID, 2);
+//        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 2)));
+//        grdAppointment.setItems(appointments);
     }
 
     /**
@@ -334,8 +392,9 @@ public class CalendarController {
      * @param actionEvent
      */
     public void rbAll_Click(ActionEvent actionEvent) {
-        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 0)));
-        grdAppointment.setItems(appointments);
+        appointmentsList = GetAllAppointments(LoginController.userID, 0);
+//        FilteredList<Appointment> appointments = new FilteredList<>(appointmentsList);
+//        grdAppointment.setItems(appointments);
     }
 
     /**

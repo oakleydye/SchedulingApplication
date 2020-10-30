@@ -11,6 +11,12 @@ public class Contact {
     private String name;
     private String email;
 
+    public Contact(int id, String contactName, String contactEmail){
+        this.ContactId = id;
+        this.name = contactName;
+        this.email = contactEmail;
+    }
+
     public int getContactId() {
         return ContactId;
     }
