@@ -1,6 +1,7 @@
 package Forms;
 
 import Libraries.ConnectionManager;
+import Libraries.LocationManager;
 import Libraries.TranslationManager;
 
 import javafx.event.ActionEvent;
@@ -43,6 +44,7 @@ public class LoginController {
      */
     public void init(){
         //// TODO: 10/21/20 Add in ability to show user location here
+        String location = LocationManager.GetLocation();
         //Locale.setDefault(new Locale("fr"));
         if (!Locale.getDefault().getLanguage().equals("en")){
             lblUsername.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), lblUsername.getText()));
