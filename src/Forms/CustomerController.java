@@ -15,6 +15,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * @author oakleydye
@@ -256,9 +257,19 @@ public class CustomerController {
             txtPhone.setText(selectedCustomer.getPhone());
             txtAddress.setText(selectedCustomer.getAddress());
             txtZip.setText(Integer.toString(selectedCustomer.getZip()));
-            /** discussion on lambda */
-            cboCountry.getSelectionModel().select(cboCountry.getItems().stream().filter(x -> x.equals(GetCountryFromDivisionId(selectedCustomer.getDivisionId()))).findFirst().orElse(null));
-            cboFirstLevelDivision.getSelectionModel().select(cboFirstLevelDivision.getItems().stream().filter(x -> x.equals(GetDivisionFromDivisionId(selectedCustomer.getDivisionId()))).findFirst().orElse(null));
+            /**
+             * discussion on lambda
+             *
+             * The following 6 lines of code utilize lambda to
+             * select the customer's region and country
+             * from the options in the combobox
+             */
+            String customerCountry = GetCountryFromDivisionId(selectedCustomer.getDivisionId());
+            String currentCountry = cboCountry.getItems().stream().filter(x -> x.equals(customerCountry)).findFirst().orElse("");
+            cboCountry.getSelectionModel().select(currentCountry);
+            String customerDivision = GetDivisionFromDivisionId(selectedCustomer.getDivisionId());
+            String currentDivision = cboFirstLevelDivision.getItems().stream().filter(x -> x.equals(customerDivision)).findFirst().orElse("");
+            cboFirstLevelDivision.getSelectionModel().select(currentDivision);
         }
     }
 
