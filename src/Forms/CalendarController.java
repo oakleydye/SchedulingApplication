@@ -480,4 +480,21 @@ public class CalendarController {
             txtCustomerId.setText(Integer.toString(selectedAppointment.getCustomer().getCustomerId()));
         }
     }
+
+    public void cboContact_Click(MouseEvent mouseEvent) {
+        Contact selectedContact = cboContact.getSelectionModel().getSelectedItem();
+        if (selectedContact != null){
+            if (selectedContact.getName().equals("Add New")){
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("frmContact.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root, 800, 600));
+                    stage.show();
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 }

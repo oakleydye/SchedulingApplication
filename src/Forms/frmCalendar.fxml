@@ -71,7 +71,7 @@
             <TextField fx:id="txtTitle"/>
             <TextField fx:id="txtDescription"/>
             <TextField fx:id="txtLocation"/>
-            <ComboBox fx:id="cboContact" minWidth="200"/>
+            <ComboBox fx:id="cboContact" minWidth="200" onMouseClicked="#cboContact_Click"/>
             <TextField fx:id="txtType"/>
             <TextField fx:id="txtStart"/>
             <TextField fx:id="txtEnd"/>
