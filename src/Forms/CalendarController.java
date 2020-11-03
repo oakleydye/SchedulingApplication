@@ -173,6 +173,10 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Helper method, returns all contacts from the database
+     * @return List of contacts
+     */
     private List<Contact> GetContacts(){
         try{
             List<Contact> contacts = new ArrayList<>();
@@ -524,6 +528,10 @@ public class CalendarController {
         }
     }
 
+    /**
+     * Event handler, allows for adding new contacts
+     * @param mouseEvent
+     */
     public void cboContact_Click(MouseEvent mouseEvent) {
         Contact selectedContact = cboContact.getSelectionModel().getSelectedItem();
         if (selectedContact != null){

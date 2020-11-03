@@ -9,8 +9,12 @@ import javafx.scene.input.MouseEvent;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 
+/**
+ * @author oakleydye
+ *
+ * Controller for frmContact.fxml
+ */
 public class ContactController {
     @FXML Label lblId;
     @FXML Label lblName;
@@ -20,10 +24,10 @@ public class ContactController {
     @FXML TextField txtEmail;
     @FXML Button btnSave;
 
-    public void init(){
-
-    }
-
+    /**
+     * Event handler, saves new contacts to the database
+     * @param mouseEvent
+     */
     public void btnSave_Click(MouseEvent mouseEvent) {
         try{
             Connection conn = ConnectionManager.GetConnection();

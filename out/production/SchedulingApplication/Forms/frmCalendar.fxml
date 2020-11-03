@@ -21,6 +21,7 @@
             <RadioButton fx:id="rbMonth" text="Month" selected="true" onAction="#rbMonth_Click" toggleGroup="$grpFilter"/>
             <RadioButton fx:id="rbWeek" text="Week" onAction="#rbWeek_Click" toggleGroup="$grpFilter"/>
             <RadioButton fx:id="rbAll" text="All" onAction="#rbAll_Click" toggleGroup="$grpFilter"/>
+            <TextField fx:id="txtSearch" promptText="Search for appointments"/>
         </HBox>
         <TableView fx:id="grdAppointment" onMouseClicked="#grdAppointment_Click" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.rowSpan="2">
             <columns>
@@ -70,7 +71,7 @@
             <TextField fx:id="txtTitle"/>
             <TextField fx:id="txtDescription"/>
             <TextField fx:id="txtLocation"/>
-            <ComboBox fx:id="cboContact" minWidth="200"/>
+            <ComboBox fx:id="cboContact" minWidth="200" onMouseClicked="#cboContact_Click"/>
             <TextField fx:id="txtType"/>
             <TextField fx:id="txtStart"/>
             <TextField fx:id="txtEnd"/>

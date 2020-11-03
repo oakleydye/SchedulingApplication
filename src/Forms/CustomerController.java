@@ -319,6 +319,11 @@ public class CustomerController {
         return "";
     }
 
+    /**
+     * Helper method, gets a division id from the division name
+     * @param division String, name of the division
+     * @return integer
+     */
     private int GetDivisionIdFromDivision(String division){
         try{
             Connection conn = ConnectionManager.GetConnection();

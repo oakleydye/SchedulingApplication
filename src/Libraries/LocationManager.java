@@ -5,7 +5,16 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
+/**
+ * @author oakleydye
+ *
+ * Helper class to do various tasks relating to a users location
+ */
 public class LocationManager {
+    /**
+     * Gets a users location based on their ip address
+     * @return String, the state or other division name
+     */
     public static String GetLocation(){
         try{
             String ip = GetIP();
@@ -26,6 +35,10 @@ public class LocationManager {
         }
     }
 
+    /**
+     * Gets the offset from utc time based on the users loaction
+     * @return String in the format of +/-0800, the offset from utc
+     */
     public static String GetOffset(){
         try{
             String ip = GetIP();
@@ -45,6 +58,10 @@ public class LocationManager {
         }
     }
 
+    /**
+     * Method to get the user ip address from an amazon api
+     * @return string ip address
+     */
     private static String GetIP(){
         try{
             URL whatismyip = new URL("http://checkip.amazonaws.com");
