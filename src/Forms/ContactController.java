@@ -34,7 +34,7 @@ public class ContactController {
             if (conn != null){
                 String query = "CALL ContactSave(?,?,?)";
                 CallableStatement stmt = conn.prepareCall(query);
-                stmt.setString(1, txtId.getText());
+                stmt.setString(1, txtId.getText().equals("") ? "0" : txtId.getText());
                 stmt.setString(2, txtName.getText());
                 stmt.setString(3, txtEmail.getText());
                 stmt.executeQuery();

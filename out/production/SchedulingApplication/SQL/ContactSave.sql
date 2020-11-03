@@ -17,13 +17,11 @@ BEGIN
     IF ROW_COUNT() = 0 THEN
         INSERT INTO contacts
         (
-            Contact_ID,
             Contact_Name,
             Email
         )
         VALUES
         (
-            Id,
             CustName,
             CustEmail
         );

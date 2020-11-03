@@ -51,7 +51,7 @@ public class LocationManager {
             try(BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))){
                 offset = reader.readLine();
             }
-            return offset;
+            return offset.replace("00", "");
         } catch (Exception ex){
             ex.printStackTrace();
             return "";

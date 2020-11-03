@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -20,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -133,13 +135,12 @@ public class CalendarController {
         }
 
         List<Contact> contacts = GetContacts();
-        cboContact.getItems().add(new Contact(0, "Add New", ""));
+        cboContact.getItems().add(new Contact(0, "--Add New--", ""));
         if (contacts != null && contacts.size() > 0){
             for (Contact contact : contacts){
                 cboContact.getItems().add(contact);
             }
         }
-
 
         if (!Locale.getDefault().getLanguage().equals("en")){
             colID.setText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), colID.getText()));
@@ -297,7 +298,8 @@ public class CalendarController {
         try{
             String offsetStr = LocationManager.GetOffset();
             Integer offset = Integer.parseInt(offsetStr);
-            LocalDateTime utc = LocalDateTime.parse(txtStart.getText()).minusHours(offset);
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
+            LocalDateTime utc = LocalDateTime.parse(txtStart.getText(), format).minusHours(offset);
             if (utc.plusHours(-4).getHour() >= 8 && utc.plusHours(-4).getHour() <= 17){
                 if (txtAppointmentId.getText().equals("")){
                     InsertNewAppointment();

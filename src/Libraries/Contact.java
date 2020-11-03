@@ -17,6 +17,11 @@ public class Contact {
         this.email = contactEmail;
     }
 
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+
     public int getContactId() {
         return ContactId;
     }
