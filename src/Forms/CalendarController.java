@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author oakleydye
@@ -104,6 +105,32 @@ public class CalendarController {
         });
         grdAppointment.setItems(appointments);
 
+        String offsetStr = LocationManager.GetOffset();
+        int offset = Integer.getInteger(offsetStr);
+        /**
+         * discussion of lambda
+         *
+         * The following uses lambda to filter a list of appointments and get
+         * any that are within 15 minutes of the login time
+         */
+        List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().plusHours(offset).isAfter(LocalDateTime.now()) && x.getStartTime().plusHours(offset).isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
+        if (soonAppointments.size() > 0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Upcoming appointments:\n");
+            for (Appointment appt : soonAppointments){
+                String text = alert.getContentText();
+                text += "Appointment ID: " + appt.getAppointmentId() + " at " + appt.getStartTime() + "\n";
+                alert.setContentText(text);
+            }
+            alert.setHeaderText("");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("No upcoming events");
+            alert.setHeaderText("");
+            alert.showAndWait();
+        }
+
         List<Contact> contacts = GetContacts();
         cboContact.getItems().add(new Contact(0, "Add New", ""));
         if (contacts != null && contacts.size() > 0){
@@ -182,6 +209,8 @@ public class CalendarController {
                 stmt.setInt(1, userId);
                 stmt.setInt(2, flag);
                 ResultSet rs = stmt.executeQuery();
+                String offsetStr = LocationManager.GetOffset();
+                int offset = Integer.getInteger(offsetStr);
                 while (rs.next()){
                     Appointment appt = new Appointment();
                     appt.setAppointmentId(rs.getInt("Appointment_ID"));
@@ -191,8 +220,8 @@ public class CalendarController {
                     Contact contact = new Contact(rs.getInt("Contact_ID"), rs.getString("Contact_Name"), rs.getString("Email"));
                     appt.setContact(contact);
                     appt.setType(rs.getString("Type"));
-                    appt.setStartTime(LocalDateTime.parse(rs.getString("Start")));
-                    appt.setEndTime(LocalDateTime.parse(rs.getString("End")));
+                    appt.setStartTime(LocalDateTime.parse(rs.getString("Start")).plusHours(offset));
+                    appt.setEndTime(LocalDateTime.parse(rs.getString("End")).plusHours(offset));
                     appt.setCustomer(GetCustomer(rs.getInt("Customer_ID")));
                     appointments.add(appt);
                 }
@@ -261,11 +290,21 @@ public class CalendarController {
      */
     public void btnSave_Click(ActionEvent actionEvent) {
         try{
-            if (txtAppointmentId.getText().equals("")){
-                InsertNewAppointment();
-            } else {
-                UpdateExistingAppointment();
+            String offsetStr = LocationManager.GetOffset();
+            Integer offset = Integer.getInteger(offsetStr);
+            LocalDateTime utc = LocalDateTime.parse(txtStart.getText()).minusHours(offset);
+            if (utc.plusHours(-4).getHour() >= 8 && utc.plusHours(-4).getHour() <= 17){
+                if (txtAppointmentId.getText().equals("")){
+                    InsertNewAppointment();
+                } else {
+                    UpdateExistingAppointment();
+                }
+            } else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Appointments must be between 8am and 5pm EST"));
+                alert.showAndWait();
             }
+
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -278,14 +317,16 @@ public class CalendarController {
         try{
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
+                String offsetStr = LocationManager.GetOffset();
+                int offset = Integer.getInteger(offsetStr);
                 String query = "CALL AppointmentInsert(?,?,?,?,?,?,?,?,?)";
                 CallableStatement stmt = conn.prepareCall(query);
                 stmt.setString(1, txtTitle.getText());
                 stmt.setString(2, txtDescription.getText());
                 stmt.setString(3, txtLocation.getText());
                 stmt.setString(4, txtType.getText());
-                stmt.setString(5, txtStart.getText());
-                stmt.setString(6, txtEnd.getText());
+                stmt.setString(5, LocalDateTime.parse(txtStart.getText()).minusHours(offset).toString());
+                stmt.setString(6, LocalDateTime.parse(txtEnd.getText()).minusHours(offset).toString());
                 stmt.setString(7, LoginController.currentUser);
                 stmt.setString(8, txtCustomerId.getText());
                 stmt.setInt(9, cboContact.getSelectionModel().getSelectedItem().getContactId());
@@ -303,6 +344,8 @@ public class CalendarController {
         try{
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
+                String offsetStr = LocationManager.GetOffset();
+                int offset = Integer.getInteger(offsetStr);
                 String query = "CALL AppointmentUpdate(?,?,?,?,?,?,?,?,?,?)";
                 CallableStatement stmt = conn.prepareCall(query);
                 stmt.setString(1, txtAppointmentId.getText());
@@ -310,8 +353,8 @@ public class CalendarController {
                 stmt.setString(3, txtDescription.getText());
                 stmt.setString(4, txtLocation.getText());
                 stmt.setString(5, txtType.getText());
-                stmt.setString(6, txtStart.getText());
-                stmt.setString(7, txtEnd.getText());
+                stmt.setString(6, LocalDateTime.parse(txtStart.getText()).minusHours(offset).toString());
+                stmt.setString(7, LocalDateTime.parse(txtEnd.getText()).minusHours(offset).toString());
                 stmt.setString(8, LoginController.currentUser);
                 stmt.setString(9, txtCustomerId.getText());
                 stmt.setInt(10, cboContact.getSelectionModel().getSelectedItem().getContactId());

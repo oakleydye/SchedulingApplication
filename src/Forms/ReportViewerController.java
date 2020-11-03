@@ -1,6 +1,7 @@
 package Forms;
 
 import Libraries.ConnectionManager;
+import Libraries.LocationManager;
 import Libraries.Report;
 import Libraries.TranslationManager;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -117,6 +119,8 @@ public class ReportViewerController {
                 }
 
                 if (users.size() > 0){
+                    String offsetStr = LocationManager.GetOffset();
+                    int offset = Integer.getInteger(offsetStr);
                     for (String user : users){
                         int userId = GetUserId(user);
                         String query2 = "CALL GetAppointmentsByUser(?, ?)";
@@ -130,8 +134,8 @@ public class ReportViewerController {
                                     rs2.getString("Appointment_ID"),
                                     rs2.getString("Title"),
                                     rs2.getString("Description"),
-                                    rs2.getString("Start"),
-                                    rs2.getString("End"),
+                                    LocalDateTime.parse(rs2.getString("Start")).plusHours(offset).toString(),
+                                    LocalDateTime.parse(rs2.getString("End")).plusHours(offset).toString(),
                                     rs2.getString("Customer_ID")
                             );
                             grdReport.getItems().add(report);

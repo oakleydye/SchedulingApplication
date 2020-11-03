@@ -26,6 +26,25 @@ public class LocationManager {
         }
     }
 
+    public static String GetOffset(){
+        try{
+            String ip = GetIP();
+            if (ip.equals("")){
+                return "Location not found";
+            }
+            URL url = new URL("https://ipapi.co/" + ip + "/utc_offset");
+            URLConnection conn = url.openConnection();
+            String offset;
+            try(BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))){
+                offset = reader.readLine();
+            }
+            return offset;
+        } catch (Exception ex){
+            ex.printStackTrace();
+            return "";
+        }
+    }
+
     private static String GetIP(){
         try{
             URL whatismyip = new URL("http://checkip.amazonaws.com");

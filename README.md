@@ -1,7 +1,7 @@
 ### SchedulingApplication ###
 Oakley Dye  
 odye@wgu.edu  
-10/26/2020  
+11/2/2020  
 Software II Performance Assessment - this application is designed to
 schedule and manage appointments with clients for a company.  
 
