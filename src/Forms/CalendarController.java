@@ -83,6 +83,7 @@ public class CalendarController {
          * The following block of code uses several lambda expressions to
          * add a realtime search to the appointments grid
          */
+        assert appointmentsList != null;
         FilteredList<Appointment> appointments = new FilteredList<>(appointmentsList, p -> true);
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             appointments.setPredicate(appointment -> {
@@ -106,7 +107,7 @@ public class CalendarController {
         grdAppointment.setItems(appointments);
 
         String offsetStr = LocationManager.GetOffset();
-        int offset = Integer.getInteger(offsetStr);
+        int offset = Integer.parseInt(offsetStr);
         /**
          * discussion of lambda
          *
@@ -214,7 +215,7 @@ public class CalendarController {
                 stmt.setInt(2, flag);
                 ResultSet rs = stmt.executeQuery();
                 String offsetStr = LocationManager.GetOffset();
-                int offset = Integer.getInteger(offsetStr);
+                int offset = Integer.parseInt(offsetStr);
                 while (rs.next()){
                     Appointment appt = new Appointment();
                     appt.setAppointmentId(rs.getInt("Appointment_ID"));
@@ -295,7 +296,7 @@ public class CalendarController {
     public void btnSave_Click(ActionEvent actionEvent) {
         try{
             String offsetStr = LocationManager.GetOffset();
-            Integer offset = Integer.getInteger(offsetStr);
+            Integer offset = Integer.parseInt(offsetStr);
             LocalDateTime utc = LocalDateTime.parse(txtStart.getText()).minusHours(offset);
             if (utc.plusHours(-4).getHour() >= 8 && utc.plusHours(-4).getHour() <= 17){
                 if (txtAppointmentId.getText().equals("")){
@@ -322,7 +323,7 @@ public class CalendarController {
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
                 String offsetStr = LocationManager.GetOffset();
-                int offset = Integer.getInteger(offsetStr);
+                int offset = Integer.parseInt(offsetStr);
                 String query = "CALL AppointmentInsert(?,?,?,?,?,?,?,?,?)";
                 CallableStatement stmt = conn.prepareCall(query);
                 stmt.setString(1, txtTitle.getText());
@@ -349,7 +350,7 @@ public class CalendarController {
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
                 String offsetStr = LocationManager.GetOffset();
-                int offset = Integer.getInteger(offsetStr);
+                int offset = Integer.parseInt(offsetStr);
                 String query = "CALL AppointmentUpdate(?,?,?,?,?,?,?,?,?,?)";
                 CallableStatement stmt = conn.prepareCall(query);
                 stmt.setString(1, txtAppointmentId.getText());

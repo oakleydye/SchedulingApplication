@@ -120,7 +120,7 @@ public class ReportViewerController {
 
                 if (users.size() > 0){
                     String offsetStr = LocationManager.GetOffset();
-                    int offset = Integer.getInteger(offsetStr);
+                    int offset = Integer.parseInt(offsetStr);
                     for (String user : users){
                         int userId = GetUserId(user);
                         String query2 = "CALL GetAppointmentsByUser(?, ?)";
