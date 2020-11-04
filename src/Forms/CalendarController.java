@@ -210,6 +210,7 @@ public class CalendarController {
             ObservableList<Appointment> appointments = FXCollections.observableArrayList();
             Connection connection = ConnectionManager.GetConnection();
             if (connection != null){
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 String query = "CALL GetAppointmentsByUser(?,?)";
                 CallableStatement stmt = connection.prepareCall(query);
                 stmt.setInt(1, userId);
@@ -226,8 +227,8 @@ public class CalendarController {
                     Contact contact = new Contact(rs.getInt("Contact_ID"), rs.getString("Contact_Name"), rs.getString("Email"));
                     appt.setContact(contact);
                     appt.setType(rs.getString("Type"));
-                    appt.setStartTime(LocalDateTime.parse(rs.getString("Start")).plusHours(offset));
-                    appt.setEndTime(LocalDateTime.parse(rs.getString("End")).plusHours(offset));
+                    appt.setStartTime(LocalDateTime.parse(rs.getString("Start"), format).plusHours(offset));
+                    appt.setEndTime(LocalDateTime.parse(rs.getString("End"), format).plusHours(offset));
                     appt.setCustomer(GetCustomer(rs.getInt("Customer_ID")));
                     appointments.add(appt);
                 }
@@ -254,15 +255,16 @@ public class CalendarController {
                 CallableStatement statement = connection.prepareCall(query);
                 statement.setInt(1, customerId);
                 ResultSet rs = statement.executeQuery();
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 while (rs.next()){
                     customer.setCustomerId(customerId);
                     customer.setName(rs.getString("Customer_Name"));
                     customer.setAddress(rs.getString("Address"));
                     customer.setZip(rs.getInt("Postal_Code"));
                     customer.setPhone(rs.getString("Phone"));
-                    customer.setCreatedOn(LocalDate.parse(rs.getString("Create_Date")));
+                    customer.setCreatedOn(LocalDate.parse(rs.getString("Create_Date"), format));
                     customer.setCreatedBy(rs.getString("Created_By"));
-                    customer.setLastUpdate(LocalDateTime.parse(rs.getString("Last_Update")));
+                    customer.setLastUpdate(LocalDateTime.parse(rs.getString("Last_Update"), format));
                     customer.setLastUpdateBy(rs.getString("Last_Updated_By"));
                     customer.setDivisionId(rs.getInt("Division_ID"));
                 }
@@ -324,6 +326,7 @@ public class CalendarController {
         try{
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
                 String offsetStr = LocationManager.GetOffset();
                 int offset = Integer.parseInt(offsetStr);
                 String query = "CALL AppointmentInsert(?,?,?,?,?,?,?,?,?)";
@@ -332,8 +335,8 @@ public class CalendarController {
                 stmt.setString(2, txtDescription.getText());
                 stmt.setString(3, txtLocation.getText());
                 stmt.setString(4, txtType.getText());
-                stmt.setString(5, LocalDateTime.parse(txtStart.getText()).minusHours(offset).toString());
-                stmt.setString(6, LocalDateTime.parse(txtEnd.getText()).minusHours(offset).toString());
+                stmt.setString(5, LocalDateTime.parse(txtStart.getText(), format).minusHours(offset).toString());
+                stmt.setString(6, LocalDateTime.parse(txtEnd.getText(), format).minusHours(offset).toString());
                 stmt.setString(7, LoginController.currentUser);
                 stmt.setString(8, txtCustomerId.getText());
                 stmt.setInt(9, cboContact.getSelectionModel().getSelectedItem().getContactId());
@@ -351,6 +354,7 @@ public class CalendarController {
         try{
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
                 String offsetStr = LocationManager.GetOffset();
                 int offset = Integer.parseInt(offsetStr);
                 String query = "CALL AppointmentUpdate(?,?,?,?,?,?,?,?,?,?)";
@@ -360,8 +364,8 @@ public class CalendarController {
                 stmt.setString(3, txtDescription.getText());
                 stmt.setString(4, txtLocation.getText());
                 stmt.setString(5, txtType.getText());
-                stmt.setString(6, LocalDateTime.parse(txtStart.getText()).minusHours(offset).toString());
-                stmt.setString(7, LocalDateTime.parse(txtEnd.getText()).minusHours(offset).toString());
+                stmt.setString(6, LocalDateTime.parse(txtStart.getText(), format).minusHours(offset).toString());
+                stmt.setString(7, LocalDateTime.parse(txtEnd.getText(), format).minusHours(offset).toString());
                 stmt.setString(8, LoginController.currentUser);
                 stmt.setString(9, txtCustomerId.getText());
                 stmt.setInt(10, cboContact.getSelectionModel().getSelectedItem().getContactId());
