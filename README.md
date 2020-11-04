@@ -6,7 +6,7 @@ Software II Performance Assessment - this application is designed to
 schedule and manage appointments with clients for a company.  
 
 **Version Info**  
-Application version 1.0.037  
+Application version 1.0.061  
 Developed in IntelliJ IDEA Ultimate 2020.2.2  
 Using JDK 11.0.8 and JavaFX SDK 11.0.2
 
