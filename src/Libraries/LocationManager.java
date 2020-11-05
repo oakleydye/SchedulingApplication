@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author oakleydye
@@ -23,9 +24,8 @@ public class LocationManager {
             }
             URL url = new URL("https://ipapi.co/" + ip + "/region");
             URLConnection conn = url.openConnection();
-            //conn.setRequestProperty("User-Agent", "java-ipapi-client");
             String location;
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))){
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))){
                 location = reader.readLine();
             }
             return location;
@@ -36,7 +36,7 @@ public class LocationManager {
     }
 
     /**
-     * Gets the offset from utc time based on the users loaction
+     * Gets the offset from utc time based on the users location
      * @return String in the format of +/-0800, the offset from utc
      */
     public static String GetOffset(){
@@ -48,7 +48,7 @@ public class LocationManager {
             URL url = new URL("https://ipapi.co/" + ip + "/utc_offset");
             URLConnection conn = url.openConnection();
             String offset;
-            try(BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))){
+            try(BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))){
                 offset = reader.readLine();
             }
             return offset.replace("00", "");
@@ -64,8 +64,8 @@ public class LocationManager {
      */
     private static String GetIP(){
         try{
-            URL whatismyip = new URL("http://checkip.amazonaws.com");
-            BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+            URL url = new URL("http://checkip.amazonaws.com");
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
             String ip = in.readLine();
             in.close();
             return ip;

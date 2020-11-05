@@ -17,6 +17,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class TranslationManager {
     public static String translate(String langFrom, String langTo, String text){
+        if (langFrom.equals(langTo)){
+            return text;
+        }
         try{
             String urlStr = "https://script.google.com/macros/s/AKfycbwPG4-909vaapT06umuD_MaU1QDvC2QT3n7qjYvyBB349Gq7IU/exec" +
                     "?q=" + URLEncoder.encode(text, StandardCharsets.UTF_8) +
@@ -32,7 +35,7 @@ public class TranslationManager {
                 stringBuilder.append(inputLine);
             }
             in.close();
-            return stringBuilder.toString().replace("&#39;", "\'");
+            return stringBuilder.toString().replace("&#39;", "'");
         } catch (Exception ex){
             ex.printStackTrace();
             return null;

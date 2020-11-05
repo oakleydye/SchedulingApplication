@@ -121,11 +121,12 @@ public class CalendarController {
                 text += "Appointment ID: " + appt.getAppointmentId() + " at " + appt.getStartTime() + "\n";
                 alert.setContentText(text);
             }
+            alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), alert.getContentText()));
             alert.setHeaderText("");
             alert.showAndWait();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("No upcoming events");
+            alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "No upcoming events"));
             alert.setHeaderText("");
             alert.showAndWait();
         }
@@ -239,7 +240,7 @@ public class CalendarController {
 
     /**
      * Gets a customer object from a given customer id
-     * @param customerId
+     * @param customerId int customer id
      * @return Libraries.Customer
      */
     private Customer GetCustomer(int customerId){
@@ -295,7 +296,7 @@ public class CalendarController {
     public void btnSave_Click(ActionEvent actionEvent) {
         try{
             String offsetStr = LocationManager.GetOffset();
-            Integer offset = Integer.parseInt(offsetStr);
+            int offset = Integer.parseInt(offsetStr);
             DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
             LocalDateTime utc = LocalDateTime.parse(txtStart.getText(), format).minusHours(offset);
             if (utc.plusHours(-4).getHour() >= 8 && utc.plusHours(-4).getHour() <= 17){
@@ -386,7 +387,7 @@ public class CalendarController {
                     stmt.setString(1, txtAppointmentId.getText());
                     stmt.executeQuery();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setContentText("Appointment " + txtTitle.getText() + " cancelled");
+                    alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Appointment " + txtTitle.getText() + " cancelled"));
                     alert.showAndWait();
                     btnAdd_Click(actionEvent);
                 } else {
@@ -513,6 +514,8 @@ public class CalendarController {
      *
      * discussion of lambda
      * The following method contains code to filter the combobox based on contact assigned to an appointment
+     *
+     *
      */
     public void grdAppointment_Click(MouseEvent mouseEvent) {
         Appointment selectedAppointment = grdAppointment.getSelectionModel().getSelectedItem();

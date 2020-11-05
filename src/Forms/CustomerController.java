@@ -229,7 +229,7 @@ public class CustomerController {
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("");
-                alert.setContentText("Customer successfully deleted");
+                alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Customer successfully deleted"));
                 alert.setTitle("Success!");
                 alert.showAndWait();
             }
@@ -238,8 +238,7 @@ public class CustomerController {
             ex.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("");
-            alert.setTitle("Error...");
-            alert.setContentText("Error deleting customer:\r\n" + ex.getMessage());
+            alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Error deleting customer:\r\n" + ex.getMessage()));
             alert.showAndWait();
         }
     }

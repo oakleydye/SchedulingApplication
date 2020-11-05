@@ -21,8 +21,7 @@ public class ConnectionManager {
             Properties info = new Properties();
             info.put("user", "U07tam");
             info.put("password", "53689127651");
-            Connection conn = DriverManager.getConnection(url, info);
-            return conn;
+            return DriverManager.getConnection(url, info);
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
