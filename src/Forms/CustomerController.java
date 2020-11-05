@@ -247,6 +247,12 @@ public class CustomerController {
     /**
      * Event handler, populates selected row into the text fields to allow for editing
      * @param mouseEvent
+     *
+     * discussion on lambda
+     *
+     * The following block of code utilizes lambda to
+     * select the customer's region and country
+     * from the options in the combobox
      */
     public void grdCustomers_Click(MouseEvent mouseEvent) {
         Customer selectedCustomer = grdCustomers.getSelectionModel().getSelectedItem();
@@ -256,13 +262,6 @@ public class CustomerController {
             txtPhone.setText(selectedCustomer.getPhone());
             txtAddress.setText(selectedCustomer.getAddress());
             txtZip.setText(Integer.toString(selectedCustomer.getZip()));
-            /**
-             * discussion on lambda
-             *
-             * The following 6 lines of code utilize lambda to
-             * select the customer's region and country
-             * from the options in the combobox
-             */
             String customerCountry = GetCountryFromDivisionId(selectedCustomer.getDivisionId());
             String currentCountry = cboCountry.getItems().stream().filter(x -> x.equals(customerCountry)).findFirst().orElse("");
             cboCountry.getSelectionModel().select(currentCountry);

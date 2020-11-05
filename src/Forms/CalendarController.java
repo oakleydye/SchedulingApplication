@@ -76,15 +76,17 @@ public class CalendarController {
     /**
      * Method called on startup, handles binding of appointments to grid and translation of page elements
      *
+     * discussion of lambda
+     *
+     * The following block of code uses several lambda expressions to
+     * add a realtime search to the appointments grid
+     *
+     * The following uses lambda to filter a list of appointments and get
+     * any that are within 15 minutes of the login time
+     *
      */
     public void init(){
         appointmentsList = GetAllAppointments(LoginController.userID, 1);
-        /**
-         * Discussion of lambda
-         *
-         * The following block of code uses several lambda expressions to
-         * add a realtime search to the appointments grid
-         */
         assert appointmentsList != null;
         FilteredList<Appointment> appointments = new FilteredList<>(appointmentsList, p -> true);
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -110,12 +112,6 @@ public class CalendarController {
 
         String offsetStr = LocationManager.GetOffset();
         int offset = Integer.parseInt(offsetStr);
-        /**
-         * discussion of lambda
-         *
-         * The following uses lambda to filter a list of appointments and get
-         * any that are within 15 minutes of the login time
-         */
         List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().plusHours(offset).isAfter(LocalDateTime.now()) && x.getStartTime().plusHours(offset).isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
         if (soonAppointments.size() > 0){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -514,6 +510,9 @@ public class CalendarController {
     /**
      * Event handler, populates appointment info from the grid to the text fields for editing
      * @param mouseEvent
+     *
+     * discussion of lambda
+     * The following method contains code to filter the combobox based on contact assigned to an appointment
      */
     public void grdAppointment_Click(MouseEvent mouseEvent) {
         Appointment selectedAppointment = grdAppointment.getSelectionModel().getSelectedItem();
@@ -522,11 +521,6 @@ public class CalendarController {
             txtTitle.setText(selectedAppointment.getTitle());
             txtDescription.setText(selectedAppointment.getDescription());
             txtLocation.setText(selectedAppointment.getLocation());
-            /**
-             * discussion of lambda
-             *
-             * The following line filters the combobox based on contact assigned to an appointment
-             */
             cboContact.getSelectionModel().select(cboContact.getItems().stream().filter(x -> x.getContactId() == selectedAppointment.getContact().getContactId()).findFirst().orElse(null));
             txtType.setText(selectedAppointment.getType());
             txtStart.setText(selectedAppointment.getStartTime().toString());
