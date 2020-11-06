@@ -37,7 +37,7 @@ public class LocationManager {
 
     /**
      * Gets the offset from utc time based on the users location
-     * @return String in the format of +/-0800, the offset from utc
+     * @return String in the format of +/-08, the offset from utc
      */
     public static String GetOffset(){
         try{

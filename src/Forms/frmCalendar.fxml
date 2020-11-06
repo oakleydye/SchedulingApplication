@@ -5,6 +5,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import CustomDateTimePicker.DateTimePicker?>
 
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <GridPane xmlns="http://javafx.com/javafx"
@@ -73,8 +74,10 @@
             <TextField fx:id="txtLocation"/>
             <ComboBox fx:id="cboContact" minWidth="200" onMouseClicked="#cboContact_Click"/>
             <TextField fx:id="txtType"/>
-            <TextField fx:id="txtStart"/>
-            <TextField fx:id="txtEnd"/>
+            <!--<TextField fx:id="txtStart"/>-->
+            <DateTimePicker fx:id="dtStart"/>
+            <!--<TextField fx:id="txtEnd"/>-->
+            <DateTimePicker fx:id="dtEnd"/>
             <TextField fx:id="txtCustomerId"/>
         </VBox>
         <HBox GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="3" spacing="10">

@@ -1,5 +1,6 @@
 package Forms;
 
+import CustomDateTimePicker.DateTimePicker;
 import Libraries.*;
 
 import javafx.collections.FXCollections;
@@ -13,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -38,8 +38,8 @@ public class CalendarController {
     @FXML TextField txtLocation;
     @FXML ComboBox<Contact> cboContact;
     @FXML TextField txtType;
-    @FXML TextField txtStart;
-    @FXML TextField txtEnd;
+    //@FXML TextField txtStart;
+    //@FXML TextField txtEnd;
     @FXML TextField txtCustomerId;
     @FXML Button btnAdd;
     @FXML Button btnSave;
@@ -62,7 +62,9 @@ public class CalendarController {
     @FXML Label lblContact;
     @FXML Label lblType;
     @FXML Label lblStart;
+    @FXML DateTimePicker dtStart;
     @FXML Label lblEnd;
+    @FXML DateTimePicker dtEnd;
     @FXML Label lblCustId;
     @FXML RadioButton rbMonth;
     @FXML RadioButton rbWeek;
@@ -284,9 +286,13 @@ public class CalendarController {
         txtDescription.clear();
         txtLocation.clear();
         txtType.clear();
-        txtStart.clear();
-        txtEnd.clear();
+        //txtStart.clear();
+        //txtEnd.clear();
         txtCustomerId.clear();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("To create a new event, please fill out the form on the right of the screen and click Save.");
+        alert.showAndWait();
     }
 
     /**
@@ -298,7 +304,8 @@ public class CalendarController {
             String offsetStr = LocationManager.GetOffset();
             int offset = Integer.parseInt(offsetStr);
             DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
-            LocalDateTime utc = LocalDateTime.parse(txtStart.getText(), format).minusHours(offset);
+            LocalDateTime utc = dtStart.dateTimeProperty().getValue().minusHours(offset);
+            //LocalDateTime utc = LocalDateTime.parse(txtStart.getText(), format).minusHours(offset);
             if (utc.plusHours(-4).getHour() >= 8 && utc.plusHours(-4).getHour() <= 17){
                 if (txtAppointmentId.getText().equals("")){
                     InsertNewAppointment();
@@ -332,8 +339,8 @@ public class CalendarController {
                 stmt.setString(2, txtDescription.getText());
                 stmt.setString(3, txtLocation.getText());
                 stmt.setString(4, txtType.getText());
-                stmt.setString(5, LocalDateTime.parse(txtStart.getText(), format).minusHours(offset).toString());
-                stmt.setString(6, LocalDateTime.parse(txtEnd.getText(), format).minusHours(offset).toString());
+                stmt.setString(5, dtStart.dateTimeProperty().getValue().minusHours(offset).toString());/*LocalDateTime.parse(txtStart.getText(), format).minusHours(offset).toString());*/
+                stmt.setString(6, dtEnd.dateTimeProperty().getValue().minusHours(offset).toString());/*LocalDateTime.parse(txtEnd.getText(), format).minusHours(offset).toString());*/
                 stmt.setString(7, LoginController.currentUser);
                 stmt.setString(8, txtCustomerId.getText());
                 stmt.setInt(9, cboContact.getSelectionModel().getSelectedItem().getContactId());
@@ -361,8 +368,8 @@ public class CalendarController {
                 stmt.setString(3, txtDescription.getText());
                 stmt.setString(4, txtLocation.getText());
                 stmt.setString(5, txtType.getText());
-                stmt.setString(6, LocalDateTime.parse(txtStart.getText(), format).minusHours(offset).toString());
-                stmt.setString(7, LocalDateTime.parse(txtEnd.getText(), format).minusHours(offset).toString());
+                stmt.setString(6, dtStart.dateTimeProperty().getValue().minusHours(offset).toString());//LocalDateTime.parse(txtStart.getText(), format).minusHours(offset).toString());
+                stmt.setString(7, dtEnd.dateTimeProperty().getValue().minusHours(offset).toString());//LocalDateTime.parse(txtEnd.getText(), format).minusHours(offset).toString());
                 stmt.setString(8, LoginController.currentUser);
                 stmt.setString(9, txtCustomerId.getText());
                 stmt.setInt(10, cboContact.getSelectionModel().getSelectedItem().getContactId());
@@ -526,8 +533,10 @@ public class CalendarController {
             txtLocation.setText(selectedAppointment.getLocation());
             cboContact.getSelectionModel().select(cboContact.getItems().stream().filter(x -> x.getContactId() == selectedAppointment.getContact().getContactId()).findFirst().orElse(null));
             txtType.setText(selectedAppointment.getType());
-            txtStart.setText(selectedAppointment.getStartTime().toString());
-            txtEnd.setText(selectedAppointment.getEndTime().toString());
+            dtStart.dateTimeProperty().setValue(selectedAppointment.getStartTime());
+            dtEnd.dateTimeProperty().setValue(selectedAppointment.getEndTime());
+            //txtStart.setText(selectedAppointment.getStartTime().toString());
+            //txtEnd.setText(selectedAppointment.getEndTime().toString());
             txtCustomerId.setText(Integer.toString(selectedAppointment.getCustomer().getCustomerId()));
         }
     }
