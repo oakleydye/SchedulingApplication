@@ -80,9 +80,6 @@ public class CalendarController {
      *
      * discussion of lambda
      *
-     * The following block of code uses several lambda expressions to
-     * add a realtime search to the appointments grid
-     *
      * The following uses lambda to filter a list of appointments and get
      * any that are within 15 minutes of the login time
      *
@@ -295,7 +292,7 @@ public class CalendarController {
                 alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Appointments must be between 8am and 5pm EST"));
                 alert.showAndWait();
             }
-
+            CreateSearchFromList(GetAllAppointments(LoginController.userID, (rbMonth.isSelected() ? 1 : (rbWeek.isSelected() ? 2 : 0))));
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -379,6 +376,7 @@ public class CalendarController {
                     throw new Exception("Error establishing database connections");
                 }
             }
+            CreateSearchFromList(GetAllAppointments(LoginController.userID, (rbMonth.isSelected() ? 1 : (rbWeek.isSelected() ? 2 : 0))));
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -431,6 +429,9 @@ public class CalendarController {
     /**
      * Method to refresh the grid contents
      * @param appointmentsList list of appointments to be put into the grid
+     *
+     * The following block of code uses several lambda expressions to
+     * add a realtime search to the appointments grid
      */
     private void CreateSearchFromList(ObservableList<Appointment> appointmentsList){
         assert appointmentsList != null;

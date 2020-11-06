@@ -211,6 +211,7 @@ public class CustomerController {
                 }
                 conn.close();
             }
+            GetAllCustomers();
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -237,6 +238,7 @@ public class CustomerController {
                 alert.setTitle("Success!");
                 alert.showAndWait();
             }
+            GetAllCustomers();
         }
         catch (Exception ex){
             ex.printStackTrace();
