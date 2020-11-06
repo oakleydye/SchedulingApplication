@@ -173,6 +173,10 @@ public class CustomerController {
         txtPhone.clear();
         txtAddress.clear();
         txtZip.clear();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("To create a new customer, please fill out the form on the right of the screen and click Save.");
+        alert.showAndWait();
     }
 
     /**
