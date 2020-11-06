@@ -73,7 +73,7 @@ public class CalendarController {
     @FXML Button btnEventReport;
     @FXML Button btnScheduleReport;
     @FXML TextField txtSearch;
-    ObservableList<Appointment> appointmentsList = FXCollections.observableArrayList();
+    //ObservableList<Appointment> appointmentsList = FXCollections.observableArrayList();
 
     /**
      * Method called on startup, handles binding of appointments to grid and translation of page elements
@@ -88,30 +88,8 @@ public class CalendarController {
      *
      */
     public void init(){
-        appointmentsList = GetAllAppointments(LoginController.userID, 1);
-        assert appointmentsList != null;
-        FilteredList<Appointment> appointments = new FilteredList<>(appointmentsList, p -> true);
-        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            appointments.setPredicate(appointment -> {
-                if (newValue == null || newValue.isEmpty()){
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-                if (appointment.getTitle().toLowerCase().contains(lowerCaseFilter)){
-                    return true;
-                }
-                else if (Integer.toString(appointment.getAppointmentId()).contains(lowerCaseFilter)){
-                    return true;
-                }
-                else if (appointment.getContact().getName().toLowerCase().contains(lowerCaseFilter)){
-                    return true;
-                }
-                else return appointment.getType().toLowerCase().contains(lowerCaseFilter);
-            });
-        });
-        grdAppointment.setItems(appointments);
-
+        ObservableList<Appointment> appointmentsList = GetAllAppointments(LoginController.userID, 1);
+        CreateSearchFromList(appointmentsList);
         String offsetStr = LocationManager.GetOffset();
         int offset = Integer.parseInt(offsetStr);
         List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().plusHours(offset).isAfter(LocalDateTime.now()) && x.getStartTime().plusHours(offset).isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
@@ -430,9 +408,7 @@ public class CalendarController {
      * @param actionEvent
      */
     public void rbMonth_Click(ActionEvent actionEvent) {
-        appointmentsList = GetAllAppointments(LoginController.userID, 1);
-//        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 1)));
-//        grdAppointment.setItems(appointments);
+        CreateSearchFromList(GetAllAppointments(LoginController.userID, 1));
     }
 
     /**
@@ -440,9 +416,8 @@ public class CalendarController {
      * @param actionEvent
      */
     public void rbWeek_Click(ActionEvent actionEvent) {
-        appointmentsList = GetAllAppointments(LoginController.userID, 2);
-//        FilteredList<Appointment> appointments = new FilteredList<>(Objects.requireNonNull(GetAllAppointments(LoginController.userID, 2)));
-//        grdAppointment.setItems(appointments);
+        CreateSearchFromList(GetAllAppointments(LoginController.userID, 2));
+        grdAppointment.refresh();
     }
 
     /**
@@ -450,9 +425,36 @@ public class CalendarController {
      * @param actionEvent
      */
     public void rbAll_Click(ActionEvent actionEvent) {
-        appointmentsList = GetAllAppointments(LoginController.userID, 0);
-//        FilteredList<Appointment> appointments = new FilteredList<>(appointmentsList);
-//        grdAppointment.setItems(appointments);
+        CreateSearchFromList(GetAllAppointments(LoginController.userID, 0));
+    }
+
+    /**
+     * Method to refresh the grid contents
+     * @param appointmentsList list of appointments to be put into the grid
+     */
+    private void CreateSearchFromList(ObservableList<Appointment> appointmentsList){
+        assert appointmentsList != null;
+        FilteredList<Appointment> appointments = new FilteredList<>(appointmentsList, p -> true);
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            appointments.setPredicate(appointment -> {
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (appointment.getTitle().toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }
+                else if (Integer.toString(appointment.getAppointmentId()).contains(lowerCaseFilter)){
+                    return true;
+                }
+                else if (appointment.getContact().getName().toLowerCase().contains(lowerCaseFilter)){
+                    return true;
+                }
+                else return appointment.getType().toLowerCase().contains(lowerCaseFilter);
+            });
+        });
+        grdAppointment.setItems(appointments);
     }
 
     /**
@@ -521,8 +523,6 @@ public class CalendarController {
      *
      * discussion of lambda
      * The following method contains code to filter the combobox based on contact assigned to an appointment
-     *
-     *
      */
     public void grdAppointment_Click(MouseEvent mouseEvent) {
         Appointment selectedAppointment = grdAppointment.getSelectionModel().getSelectedItem();

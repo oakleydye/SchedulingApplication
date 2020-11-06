@@ -21,6 +21,11 @@ public class Customer {
     private String lastUpdateBy;
     private int DivisionId;
 
+    @Override
+    public String toString(){
+        return Integer.toString(getCustomerId());
+    }
+
     public int getCustomerId() {
         return CustomerId;
     }

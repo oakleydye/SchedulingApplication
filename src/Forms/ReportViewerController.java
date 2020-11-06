@@ -13,6 +13,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -120,6 +121,7 @@ public class ReportViewerController {
                 if (users.size() > 0){
                     String offsetStr = LocationManager.GetOffset();
                     int offset = Integer.parseInt(offsetStr);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     for (String user : users){
                         int userId = GetUserId(user);
                         String query2 = "CALL GetAppointmentsByUser(?, ?)";
@@ -132,9 +134,10 @@ public class ReportViewerController {
                                     user,
                                     rs2.getString("Appointment_ID"),
                                     rs2.getString("Title"),
+                                    rs2.getString("Type"),
                                     rs2.getString("Description"),
-                                    LocalDateTime.parse(rs2.getString("Start")).plusHours(offset).toString(),
-                                    LocalDateTime.parse(rs2.getString("End")).plusHours(offset).toString(),
+                                    LocalDateTime.parse(rs2.getString("Start"), formatter).plusHours(offset).toString(),
+                                    LocalDateTime.parse(rs2.getString("End"), formatter).plusHours(offset).toString(),
                                     rs2.getString("Customer_ID")
                             );
                             grdReport.getItems().add(report);

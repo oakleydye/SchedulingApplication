@@ -15,7 +15,7 @@
           prefHeight="800" prefWidth="1280">
 
     <GridPane hgap="10" vgap="10">
-        <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="5">
             <fx:define>
                 <ToggleGroup fx:id="grpFilter"/>
             </fx:define>
@@ -39,7 +39,7 @@
                     <cellValueFactory><PropertyValueFactory property="location"/> </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="colContact" text="Contact">
-                    <cellValueFactory><PropertyValueFactory property="contact.name"/> </cellValueFactory>
+                    <cellValueFactory><PropertyValueFactory property="contact"/> </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="colType" text="Type">
                     <cellValueFactory><PropertyValueFactory property="type"/> </cellValueFactory>
@@ -51,7 +51,7 @@
                     <cellValueFactory><PropertyValueFactory property="endTime"/> </cellValueFactory>
                 </TableColumn>
                 <TableColumn fx:id="colCustId" text="Customer ID">
-                    <cellValueFactory><PropertyValueFactory property="customer.CustomerId"/> </cellValueFactory>
+                    <cellValueFactory><PropertyValueFactory property="customer"/> </cellValueFactory>
                 </TableColumn>
             </columns>
         </TableView>

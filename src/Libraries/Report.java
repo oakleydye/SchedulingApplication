@@ -28,10 +28,11 @@ public class Report {
         this.Appointments = appts;
     }
 
-    public Report(String username, String apptId, String title, String desc, String start, String end, String custId){
+    public Report(String username, String apptId, String title, String type, String desc, String start, String end, String custId){
         this.UserName = username;
         this.Appointment_ID = apptId;
         this.Title = title;
+        this.Type = type;
         this.Description = desc;
         this.Start = start;
         this.End = end;
