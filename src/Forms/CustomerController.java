@@ -141,6 +141,7 @@ public class CustomerController {
         try{
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
+                customers.clear();
                 String query = "CALL CustomerInfoGet()";
                 CallableStatement stmt = conn.prepareCall(query);
                 ResultSet rs = stmt.executeQuery();
