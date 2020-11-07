@@ -368,7 +368,7 @@ public class CalendarController {
                     stmt.setString(1, txtAppointmentId.getText());
                     stmt.executeQuery();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Appointment " + txtTitle.getText() + " cancelled"));
+                    alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Appointment " + txtTitle.getText() + " cancelled\r\nID: " + txtAppointmentId.getText() + " Type: " + txtType.getText()));
                     alert.showAndWait();
                     btnAdd_Click(actionEvent);
                 } else {
