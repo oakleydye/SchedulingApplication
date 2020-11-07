@@ -96,7 +96,7 @@ public class CalendarController {
             alert.setContentText("Upcoming appointments:\n");
             for (Appointment appt : soonAppointments){
                 String text = alert.getContentText();
-                text += "Appointment ID: " + appt.getAppointmentId() + " at " + appt.getStartTime() + "\n";
+                text += "Appointment ID: " + appt.getAppointmentId() + " (" + appt.getTitle() + ") at" + appt.getStartTime() + "\n";
                 alert.setContentText(text);
             }
             alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), alert.getContentText()));
@@ -279,10 +279,28 @@ public class CalendarController {
             long setOffset = LocationManager.GetOffsetFromComputerSetting();
             LocalDateTime utc = dtStart.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit());
             if (utc.plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).getHour() >= 8 && utc.plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).getHour() <= 22){
-                if (txtAppointmentId.getText().equals("")){
-                    InsertNewAppointment();
-                } else {
-                    UpdateExistingAppointment();
+                Connection conn = ConnectionManager.GetConnection();
+                if (conn != null){
+                    String query = "CALL AppointmentOverlapCheck(?,?,?)";
+                    CallableStatement stmt = conn.prepareCall(query);
+                    stmt.setInt(1, LoginController.userID);
+                    stmt.setString(2, dtStart.dateTimeProperty().getValue().toString());
+                    stmt.setString(3, dtEnd.dateTimeProperty().getValue().toString());
+                    ResultSet rs = stmt.executeQuery();
+                    //// TODO: 11/6/20 Test this and make sure that the column index and next usage is correct 
+                    rs.next();
+                    int count = rs.getInt(1);
+                    if (count > 0){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setContentText("Overlapping appointments are not allowed");
+                        alert.showAndWait();
+                    } else {
+                        if (txtAppointmentId.getText().equals("")){
+                            InsertNewAppointment();
+                        } else {
+                            UpdateExistingAppointment();
+                        }
+                    }
                 }
             } else{
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
