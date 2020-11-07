@@ -285,12 +285,11 @@ public class CalendarController {
                     String query = "CALL AppointmentOverlapCheck(?,?,?)";
                     CallableStatement stmt = conn.prepareCall(query);
                     stmt.setInt(1, LoginController.userID);
-                    stmt.setString(2, dtStart.dateTimeProperty().getValue().toString());
-                    stmt.setString(3, dtEnd.dateTimeProperty().getValue().toString());
+                    stmt.setString(2, dtStart.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    stmt.setString(3, dtEnd.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
                     ResultSet rs = stmt.executeQuery();
-                    //// TODO: 11/6/20 Test this and make sure that the column index and next usage is correct 
                     rs.next();
-                    int count = rs.getInt(1);
+                    int count = rs.getInt("OverlapCount");
                     if (count > 0){
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setContentText("Overlapping appointments are not allowed");
