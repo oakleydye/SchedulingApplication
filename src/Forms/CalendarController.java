@@ -90,6 +90,7 @@ public class CalendarController {
         ObservableList<Appointment> appointmentsList = GetAllAppointments(LoginController.userID, 1);
         CreateSearchFromList(appointmentsList);
         long setOffset = LocationManager.GetOffsetFromComputerSetting();
+        //// TODO: 11/6/20 According to the grader this isn't working. Test it 
         List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).isAfter(LocalDateTime.now()) && x.getStartTime().plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
         if (soonAppointments.size() > 0){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
