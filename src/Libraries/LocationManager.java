@@ -1,10 +1,16 @@
 package Libraries;
 
+import com.mysql.cj.jdbc.admin.TimezoneDump;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * @author oakleydye
@@ -56,6 +62,18 @@ public class LocationManager {
             ex.printStackTrace();
             return "";
         }
+    }
+
+    /**
+     * This method returns the offset from UTC. The difference between the
+     * above method and this is that the above is more accurate.
+     * GetOffset() returns the offset based on the user's actual location,
+     * this method pulls based on whatever timezone the user has put in their machine.
+     * @return int version of the offset
+     */
+    public static long GetOffsetFromComputerSetting(){
+        TimeZone zone = TimeZone.getDefault();
+        return zone.getOffset(Calendar.getInstance().getTimeInMillis());
     }
 
     /**

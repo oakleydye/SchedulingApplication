@@ -22,6 +22,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -87,9 +89,8 @@ public class CalendarController {
     public void init(){
         ObservableList<Appointment> appointmentsList = GetAllAppointments(LoginController.userID, 1);
         CreateSearchFromList(appointmentsList);
-        String offsetStr = LocationManager.GetOffset();
-        int offset = Integer.parseInt(offsetStr);
-        List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().plusHours(offset).isAfter(LocalDateTime.now()) && x.getStartTime().plusHours(offset).isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
+        long setOffset = LocationManager.GetOffsetFromComputerSetting();
+        List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).isAfter(LocalDateTime.now()) && x.getStartTime().plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
         if (soonAppointments.size() > 0){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Upcoming appointments:\n");
@@ -190,8 +191,7 @@ public class CalendarController {
                 stmt.setInt(1, userId);
                 stmt.setInt(2, flag);
                 ResultSet rs = stmt.executeQuery();
-                String offsetStr = LocationManager.GetOffset();
-                int offset = Integer.parseInt(offsetStr);
+                long setOffset = LocationManager.GetOffsetFromComputerSetting();
                 while (rs.next()){
                     Appointment appt = new Appointment();
                     appt.setAppointmentId(rs.getInt("Appointment_ID"));
@@ -201,8 +201,8 @@ public class CalendarController {
                     Contact contact = new Contact(rs.getInt("Contact_ID"), rs.getString("Contact_Name"), rs.getString("Email"));
                     appt.setContact(contact);
                     appt.setType(rs.getString("Type"));
-                    appt.setStartTime(LocalDateTime.parse(rs.getString("Start"), format).plusHours(offset));
-                    appt.setEndTime(LocalDateTime.parse(rs.getString("End"), format).plusHours(offset));
+                    appt.setStartTime(LocalDateTime.parse(rs.getString("Start"), format).plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()));
+                    appt.setEndTime(LocalDateTime.parse(rs.getString("End"), format).plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()));
                     appt.setCustomer(GetCustomer(rs.getInt("Customer_ID")));
                     appointments.add(appt);
                 }
@@ -276,11 +276,9 @@ public class CalendarController {
      */
     public void btnSave_Click(ActionEvent actionEvent) {
         try{
-            String offsetStr = LocationManager.GetOffset();
-            int offset = Integer.parseInt(offsetStr);
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
-            LocalDateTime utc = dtStart.dateTimeProperty().getValue().minusHours(offset);
-            if (utc.plusHours(-4).getHour() >= 8 && utc.plusHours(-4).getHour() <= 22){
+            long setOffset = LocationManager.GetOffsetFromComputerSetting();
+            LocalDateTime utc = dtStart.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit());
+            if (utc.plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).getHour() >= 8 && utc.plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).getHour() <= 22){
                 if (txtAppointmentId.getText().equals("")){
                     InsertNewAppointment();
                 } else {
@@ -305,16 +303,15 @@ public class CalendarController {
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
-                String offsetStr = LocationManager.GetOffset();
-                int offset = Integer.parseInt(offsetStr);
+                long setOffset = LocationManager.GetOffsetFromComputerSetting();
                 String query = "CALL AppointmentInsert(?,?,?,?,?,?,?,?,?)";
                 CallableStatement stmt = conn.prepareCall(query);
                 stmt.setString(1, txtTitle.getText());
                 stmt.setString(2, txtDescription.getText());
                 stmt.setString(3, txtLocation.getText());
                 stmt.setString(4, txtType.getText());
-                stmt.setString(5, dtStart.dateTimeProperty().getValue().minusHours(offset).toString());/*LocalDateTime.parse(txtStart.getText(), format).minusHours(offset).toString());*/
-                stmt.setString(6, dtEnd.dateTimeProperty().getValue().minusHours(offset).toString());/*LocalDateTime.parse(txtEnd.getText(), format).minusHours(offset).toString());*/
+                stmt.setString(5, dtStart.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).toString());
+                stmt.setString(6, dtEnd.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).toString());
                 stmt.setString(7, LoginController.currentUser);
                 stmt.setString(8, txtCustomerId.getText());
                 stmt.setInt(9, cboContact.getSelectionModel().getSelectedItem().getContactId());
@@ -333,8 +330,7 @@ public class CalendarController {
             Connection conn = ConnectionManager.GetConnection();
             if (conn != null){
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
-                String offsetStr = LocationManager.GetOffset();
-                int offset = Integer.parseInt(offsetStr);
+                long setOffset = LocationManager.GetOffsetFromComputerSetting();
                 String query = "CALL AppointmentUpdate(?,?,?,?,?,?,?,?,?,?)";
                 CallableStatement stmt = conn.prepareCall(query);
                 stmt.setString(1, txtAppointmentId.getText());
@@ -342,8 +338,8 @@ public class CalendarController {
                 stmt.setString(3, txtDescription.getText());
                 stmt.setString(4, txtLocation.getText());
                 stmt.setString(5, txtType.getText());
-                stmt.setString(6, dtStart.dateTimeProperty().getValue().minusHours(offset).toString());//LocalDateTime.parse(txtStart.getText(), format).minusHours(offset).toString());
-                stmt.setString(7, dtEnd.dateTimeProperty().getValue().minusHours(offset).toString());//LocalDateTime.parse(txtEnd.getText(), format).minusHours(offset).toString());
+                stmt.setString(6, dtStart.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).toString());
+                stmt.setString(7, dtEnd.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).toString());
                 stmt.setString(8, LoginController.currentUser);
                 stmt.setString(9, txtCustomerId.getText());
                 stmt.setInt(10, cboContact.getSelectionModel().getSelectedItem().getContactId());
