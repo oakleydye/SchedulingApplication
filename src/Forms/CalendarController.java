@@ -280,8 +280,7 @@ public class CalendarController {
             int offset = Integer.parseInt(offsetStr);
             DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a");
             LocalDateTime utc = dtStart.dateTimeProperty().getValue().minusHours(offset);
-            //LocalDateTime utc = LocalDateTime.parse(txtStart.getText(), format).minusHours(offset);
-            if (utc.plusHours(-4).getHour() >= 8 && utc.plusHours(-4).getHour() <= 17){
+            if (utc.plusHours(-4).getHour() >= 8 && utc.plusHours(-4).getHour() <= 22){
                 if (txtAppointmentId.getText().equals("")){
                     InsertNewAppointment();
                 } else {
@@ -289,7 +288,7 @@ public class CalendarController {
                 }
             } else{
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Appointments must be between 8am and 5pm EST"));
+                alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Appointments must be between 8am and 10pm EST"));
                 alert.showAndWait();
             }
             CreateSearchFromList(GetAllAppointments(LoginController.userID, (rbMonth.isSelected() ? 1 : (rbWeek.isSelected() ? 2 : 0))));
