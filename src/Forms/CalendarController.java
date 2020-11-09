@@ -23,7 +23,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,8 +39,6 @@ public class CalendarController {
     @FXML TextField txtLocation;
     @FXML ComboBox<Contact> cboContact;
     @FXML TextField txtType;
-    //@FXML TextField txtStart;
-    //@FXML TextField txtEnd;
     @FXML TextField txtCustomerId;
     @FXML Button btnAdd;
     @FXML Button btnSave;
@@ -75,7 +72,6 @@ public class CalendarController {
     @FXML Button btnEventReport;
     @FXML Button btnScheduleReport;
     @FXML TextField txtSearch;
-    //ObservableList<Appointment> appointmentsList = FXCollections.observableArrayList();
 
     /**
      * Method called on startup, handles binding of appointments to grid and translation of page elements
@@ -90,14 +86,14 @@ public class CalendarController {
         ObservableList<Appointment> appointmentsList = GetAllAppointments(LoginController.userID, 1);
         CreateSearchFromList(appointmentsList);
         long setOffset = LocationManager.GetOffsetFromComputerSetting();
-        //// TODO: 11/7/20 fix this 
-        List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).isAfter(LocalDateTime.now()) && x.getStartTime().plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
+        //// TODO: 11/7/20 fix this
+        List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().isAfter(LocalDateTime.now()) && x.getStartTime().isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
         if (soonAppointments.size() > 0){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Upcoming appointments:\n");
             for (Appointment appt : soonAppointments){
                 String text = alert.getContentText();
-                text += "Appointment ID: " + appt.getAppointmentId() + " (" + appt.getTitle() + ") at" + appt.getStartTime() + "\n";
+                text += "Appointment ID: " + appt.getAppointmentId() + " (" + appt.getTitle() + ") at " + appt.getStartTime() + "\n";
                 alert.setContentText(text);
             }
             alert.setContentText(TranslationManager.translate("en", Locale.getDefault().getLanguage(), alert.getContentText()));
@@ -262,8 +258,6 @@ public class CalendarController {
         txtDescription.clear();
         txtLocation.clear();
         txtType.clear();
-        //txtStart.clear();
-        //txtEnd.clear();
         txtCustomerId.clear();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -279,7 +273,7 @@ public class CalendarController {
         try{
             long setOffset = LocationManager.GetOffsetFromComputerSetting();
             LocalDateTime utc = dtStart.dateTimeProperty().getValue().minus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit());
-            if (utc.plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).getHour() >= 8 && utc.plus(setOffset, ChronoField.MILLI_OF_DAY.getBaseUnit()).getHour() <= 22){
+            if (utc.plusHours(-5).getHour() >= 8 && utc.plusHours(-5).getHour() <= 22){
                 Connection conn = ConnectionManager.GetConnection();
                 if (conn != null){
                     String query = "CALL AppointmentOverlapCheck(?,?,?)";
@@ -549,8 +543,6 @@ public class CalendarController {
             txtType.setText(selectedAppointment.getType());
             dtStart.dateTimeProperty().setValue(selectedAppointment.getStartTime());
             dtEnd.dateTimeProperty().setValue(selectedAppointment.getEndTime());
-            //txtStart.setText(selectedAppointment.getStartTime().toString());
-            //txtEnd.setText(selectedAppointment.getEndTime().toString());
             txtCustomerId.setText(Integer.toString(selectedAppointment.getCustomer().getCustomerId()));
         }
     }
