@@ -554,7 +554,7 @@ public class CalendarController {
     public void cboContact_Click(MouseEvent mouseEvent) {
         Contact selectedContact = cboContact.getSelectionModel().getSelectedItem();
         if (selectedContact != null){
-            if (selectedContact.getName().equals("Add New")){
+            if (selectedContact.getName().equals("--Add New--")){
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("frmContact.fxml"));
                     Parent root = loader.load();
