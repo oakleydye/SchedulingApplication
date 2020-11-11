@@ -82,16 +82,8 @@ public class Customer {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getLastUpdate() {
-        return lastUpdate;
-    }
-
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
-    }
-
-    public String getLastUpdateBy() {
-        return lastUpdateBy;
     }
 
     public void setLastUpdateBy(String lastUpdateBy) {
