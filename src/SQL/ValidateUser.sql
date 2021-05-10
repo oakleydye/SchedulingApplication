@@ -6,9 +6,7 @@ CREATE PROCEDURE ValidateUser(
 )
 BEGIN
     SELECT
-        CASE WHEN Password = pwd THEN 'True'
-            ELSE 'false'
-        END AS Valid
+        IF(Password = pwd, 'True', 'false') AS Valid
     FROM
         users
     WHERE
