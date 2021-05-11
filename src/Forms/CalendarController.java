@@ -85,7 +85,7 @@ public class CalendarController {
     public void init(){
         ObservableList<Appointment> appointmentsList = GetAllAppointments(LoginController.userID, 1);
         CreateSearchFromList(appointmentsList);
-        List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().isAfter(LocalDateTime.now()) && x.getStartTime().isBefore(LocalDateTime.now().plusMinutes(15))).collect(Collectors.toList());
+        List<Appointment> soonAppointments = appointmentsList.stream().filter(x -> x.getStartTime().isAfter(LocalDateTime.now()) && x.getStartTime().isBefore(LocalDateTime.now().plusHours(15))).collect(Collectors.toList());
         if (soonAppointments.size() > 0){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Upcoming appointments:\n");
