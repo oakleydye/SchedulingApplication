@@ -38,7 +38,7 @@ public class NewUserController {
         }
 
         this.UserId = report.getUserId();
-        txtUsername.setText(report.getUsername());
+        txtUsername.setText(report.getUserName());
         txtPassword.setText(report.getPassword());
         btnCreateUser.setVisible(false);
         btnModUser.setVisible(true);

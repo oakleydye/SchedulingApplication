@@ -422,7 +422,7 @@ public class CalendarController {
 
     public void btnModUsers_Click(){
         try{
-            List<String> columns = Arrays.asList("User Name", "Password");
+            List<String> columns = Arrays.asList("UserName", "Password");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportViewer.fxml"));
             Parent root = loader.load();
             ReportViewerController controller = loader.getController();

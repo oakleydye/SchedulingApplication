@@ -21,7 +21,6 @@ public class Report {
     private String Contact_Name;
     private String UserId;
     private String Email;
-    private String Username;
     private String Password;
 
     public Report(String cust, String month, String type, String appts){
@@ -168,14 +167,6 @@ public class Report {
 
     public void setUserId(String userId) {
         UserId = userId;
-    }
-
-    public String getUsername() {
-        return Username;
-    }
-
-    public void setUsername(String username) {
-        Username = username;
     }
 
     public String getPassword() {
