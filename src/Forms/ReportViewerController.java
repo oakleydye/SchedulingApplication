@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 public class ReportViewerController {
     @FXML TableView grdReport;
     @FXML Button btnModUser;
+    @FXML Button btnDeleteUser;
 
     /**
      * Method called on init of the form. This dynamically adds columns to the TableView
@@ -61,6 +62,7 @@ public class ReportViewerController {
         }
         if (userReport){
             btnModUser.setVisible(true);
+            btnDeleteUser.setVisible(true);
         }
     }
 
@@ -75,6 +77,22 @@ public class ReportViewerController {
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root, 1280, 800));
                 stage.show();
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void btnDeleteUser_Click(){
+        try{
+            Report report = (Report) grdReport.getSelectionModel().getSelectedItem();
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null && report != null){
+                String query = "CALL UserDelete(?)";
+                CallableStatement stmt = conn.prepareCall(query);
+                stmt.setString(1, report.getUserId());
+                stmt.executeQuery();
+                grdReport.refresh();
             }
         } catch (Exception ex){
             ex.printStackTrace();

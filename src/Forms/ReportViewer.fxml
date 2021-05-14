@@ -12,7 +12,8 @@
             prefHeight="600.0" prefWidth="800.0">
 
     <TableView fx:id="grdReport"/>
-    <StackPane GridPane.rowIndex="1">
+    <HBox GridPane.rowIndex="1">
         <Button fx:id="btnModUser" text="Modify Selected User" onAction="#btnModUser_Click" visible="false"/>
-    </StackPane>
+        <Button fx:id="btnDeleteUser" text="Delete Selected User" onAction="#btnDeleteUser_Click" visible="false"/>
+    </HBox>
 </GridPane>
