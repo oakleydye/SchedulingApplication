@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Forms.NewUserController"
+            alignment="center"
+            hgap="10"
+            vgap="10">
+
+    <GridPane hgap="10" vgap="10">
+        <Label fx:id="lblUsername" text="Username: " GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <TextField fx:id="txtUsername" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+        <Label fx:id="lblPassword" text="Password: " GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <PasswordField fx:id="txtPassword" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+        <Button fx:id="btnCreateUser" text="Create New User" GridPane.columnIndex="3" GridPane.rowIndex="5" onAction="#btnCreateUser_Click"/>
+        <Button fx:id="btnModUser" text="Update User" GridPane.rowIndex="5" GridPane.columnIndex="3" onAction="#btnModUser_Click" visible="false"/>
+    </GridPane>
+
+</GridPane>

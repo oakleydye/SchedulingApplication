@@ -406,6 +406,36 @@ public class CalendarController {
         }
     }
 
+    public void btnUsers_Click(){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("frmNewUser.fxml"));
+            Parent root = loader.load();
+            NewUserController controller = loader.getController();
+            controller.init();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 1280, 800));
+            stage.show();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void btnModUsers_Click(){
+        try{
+            List<String> columns = Arrays.asList("User Name", "Password");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportViewer.fxml"));
+            Parent root = loader.load();
+            ReportViewerController controller = loader.getController();
+            controller.init(columns, true);
+            controller.buildUserReport();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 1280, 800));
+            stage.show();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * Event handler, gets appointments for the current month and adds them to the grid
      * @param actionEvent

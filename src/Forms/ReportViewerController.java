@@ -5,9 +5,14 @@ import Libraries.LocationManager;
 import Libraries.Report;
 import Libraries.TranslationManager;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -25,6 +30,7 @@ import java.util.stream.Collectors;
  */
 public class ReportViewerController {
     @FXML TableView grdReport;
+    @FXML Button btnModUser;
 
     /**
      * Method called on init of the form. This dynamically adds columns to the TableView
@@ -40,6 +46,38 @@ public class ReportViewerController {
             TableColumn col = new TableColumn(Locale.getDefault().getLanguage().equals("en") ? column : translatedCol);
             col.setCellValueFactory(new PropertyValueFactory<>(column.replace("# of ", "").replace(' ', '_')));
             grdReport.getColumns().add(col);
+        }
+    }
+
+    public void init(List<String> columns, boolean userReport){
+        for (String column : columns){
+            String translatedCol = "";
+            if (!Locale.getDefault().getLanguage().equals("en")){
+                translatedCol = TranslationManager.translate("en", Locale.getDefault().getLanguage(), column);
+            }
+            TableColumn col = new TableColumn(Locale.getDefault().getLanguage().equals("en") ? column : translatedCol);
+            col.setCellValueFactory(new PropertyValueFactory<>(column.replace("# of ", "").replace(' ', '_')));
+            grdReport.getColumns().add(col);
+        }
+        if (userReport){
+            btnModUser.setVisible(true);
+        }
+    }
+
+    public void btnModUser_Click(){
+        try{
+            Report report = (Report) grdReport.getSelectionModel().getSelectedItem();
+            if (report != null){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("frmNewUser.fxml"));
+                Parent root = loader.load();
+                NewUserController controller = loader.getController();
+                controller.init(report);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root, 1280, 800));
+                stage.show();
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
     }
 
@@ -188,6 +226,27 @@ public class ReportViewerController {
                             rs.getString("Contact_ID"),
                             rs.getString("Contact_Name"),
                             rs.getString("Email")
+                    );
+                    grdReport.getItems().add(report);
+                }
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void buildUserReport(){
+        try{
+            Connection conn = ConnectionManager.GetConnection();
+            if (conn != null){
+                String query = "CALL UsersGet()";
+                CallableStatement stmt = conn.prepareCall(query);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next()){
+                    Report report = new Report(
+                            rs.getInt("User_ID"),
+                            rs.getString("User_Name"),
+                            rs.getString("Password")
                     );
                     grdReport.getItems().add(report);
                 }

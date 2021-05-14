@@ -17,7 +17,7 @@ public class ConnectionManager {
      */
     public static Connection GetConnection(){
         try{
-            String url = "jdbc:mysql://wgudb.ucertify.com:3306/WJ07tam";
+            @SuppressWarnings("SpellCheckingInspection") String url = "jdbc:mysql://wgudb.ucertify.com:3306/WJ07tam";
             Properties info = new Properties();
             info.put("user", "U07tam");
             info.put("password", "53689127651");

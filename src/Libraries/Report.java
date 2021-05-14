@@ -19,13 +19,22 @@ public class Report {
     private String UserName;
     private String Contact_ID;
     private String Contact_Name;
+    private String UserId;
     private String Email;
+    private String Username;
+    private String Password;
 
     public Report(String cust, String month, String type, String appts){
         this.Customer = cust;
         this.Month = month;
         this.Type = type;
         this.Appointments = appts;
+    }
+
+    public Report(int userId, String username, String password){
+        this.UserId  = Integer.toString(userId);
+        this.UserName = username;
+        this.Password = password;
     }
 
     public Report(String username, String apptId, String title, String type, String desc, String start, String end, String custId){
@@ -151,6 +160,30 @@ public class Report {
 
     public String getCustomer_ID() {
         return Customer_ID;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
+    public String getUsername() {
+        return Username;
+    }
+
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
     }
 
     public void setCustomer_ID(String customer_ID) {

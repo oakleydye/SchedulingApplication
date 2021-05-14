@@ -3,13 +3,11 @@ package Forms;
 import Libraries.ConnectionManager;
 import Libraries.LocationManager;
 import Libraries.TranslationManager;
-
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
@@ -43,6 +41,7 @@ public class LoginController {
      *
      * CHANGE LOCALE HERE FOR LANGUAGE TESTING
      */
+    @SuppressWarnings("DuplicatedCode")
     public void init(){
         //Use this line to easily change the language of the program
         //Locale.setDefault(new Locale("fr"));
@@ -59,9 +58,8 @@ public class LoginController {
     /**
      * Event handler, validates input and allows user into the application.
      * Also handles logging of attempts to login and assigning global user variables
-     * @param actionEvent
      */
-    public void btnLogin_Click(ActionEvent actionEvent) {
+    public void btnLogin_Click() {
         try{
             if (!txtUsername.getText().equals("") && !txtPassword.getText().equals("")){
                 Connection connection = ConnectionManager.GetConnection();
@@ -91,19 +89,11 @@ public class LoginController {
                             stage2.close();
                         }
                         else{
-                            WriteToFile(false);
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setContentText(Locale.getDefault().getLanguage().equals("en") ? "Incorrect Password" : TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Incorrect Password"));
-                            alert.setHeaderText("");
-                            alert.showAndWait();
+                            FailedLogin();
                         }
                     }
                     if (count == 0) {
-                        WriteToFile(false);
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText(Locale.getDefault().getLanguage().equals("en") ? "Incorrect Password" : TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Incorrect Password"));
-                        alert.setHeaderText("");
-                        alert.showAndWait();
+                        FailedLogin();
                     }
                     connection.close();
                 }
@@ -114,6 +104,14 @@ public class LoginController {
         }
     }
 
+    private void FailedLogin() {
+        WriteToFile(false);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(Locale.getDefault().getLanguage().equals("en") ? "Incorrect Password" : TranslationManager.translate("en", Locale.getDefault().getLanguage(), "Incorrect Password"));
+        alert.setHeaderText("");
+        alert.showAndWait();
+    }
+
     /**
      * Method to handle writing login attempts to a file
      * @param isSuccessful dictates what text is written based on whether or not the attempt was successful
@@ -121,7 +119,7 @@ public class LoginController {
     private void WriteToFile(boolean isSuccessful){
         try {
             File file = new File("login_activity.txt");
-            if (!file.exists()) { file.createNewFile(); }
+            file.createNewFile();
             FileWriter writer = new FileWriter(file, true);
             BufferedWriter bw = new BufferedWriter(writer);
             bw.write("Login attempt by " + txtUsername.getText() + " on " + LocalDateTime.now() + " was " + (isSuccessful ? "successful." : "not successful."));
@@ -145,7 +143,7 @@ public class LoginController {
                 CallableStatement statement = connection.prepareCall(query);
                 statement.setString(1, username);
                 ResultSet rs = statement.executeQuery();
-                while (rs.next()){
+                if (rs.next()){
                     return rs.getInt("User_ID");
                 }
                 connection.close();

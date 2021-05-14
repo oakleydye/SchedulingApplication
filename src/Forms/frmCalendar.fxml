@@ -86,6 +86,8 @@
             <Button fx:id="btnDelete" text="Delete" onAction="#btnDelete_Click"/>
         </HBox>
         <HBox GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.rowIndex="4" spacing="10">
+            <Button fx:id="btnUsers" text="Add New User" onAction="#btnUsers_Click"/>
+            <Button fx:id="btnModUsers" text="Manage Users" onAction="#btnModUsers_Click"/>
             <Button fx:id="btnCustomers" text="Manage Customers" onAction="#btnCustomers_Click"/>
             <Button fx:id="btnEventReport" text="Generate Event Report" onAction="#btnEventReport_Click"/>
             <Button fx:id="btnScheduleReport" text="Generate Schedule" onAction="#btnScheduleReport_Click"/>
